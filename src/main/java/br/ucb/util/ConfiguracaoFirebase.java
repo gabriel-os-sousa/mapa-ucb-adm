@@ -42,9 +42,10 @@ public class ConfiguracaoFirebase {
 
 	public static void main(String[] args) {
 		
-		DatabaseReference locaisRef = ConfiguracaoFirebase.getFirebaseDatabase().child("locais");
+		DatabaseReference firebaseDatabase = ConfiguracaoFirebase.getFirebaseDatabase();
+		DatabaseReference locaisRef = firebaseDatabase.child("/");
+		
 		ValueEventListener asdf = new ValueEventListener() {
-			
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
 				for (DataSnapshot dados : snapshot.getChildren()) {
@@ -58,6 +59,8 @@ public class ConfiguracaoFirebase {
 		};
 		
 		locaisRef.addValueEventListener(asdf);
+		
+		System.out.println(asdf.toString());
 		
 	}
 

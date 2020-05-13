@@ -14,7 +14,7 @@ public class Initializer implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		log.info("Inicializando APP ... " + sce.getServletContext().getContextPath());
-		log.info("Inicializando banco ... " + ConfiguracaoFirebase.getFirebaseDatabase());
+//		log.info("Inicializando banco ... " + ConfiguracaoFirebase.getFirebaseDatabase());
 		
 	}
 
