@@ -1,7 +1,6 @@
 package br.ucb.util;
 
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -44,6 +43,7 @@ public class ConfiguracaoFirebase {
 		
 		DatabaseReference firebaseDatabase = ConfiguracaoFirebase.getFirebaseDatabase();
 		DatabaseReference locaisRef = firebaseDatabase.child("/");
+		boolean pesquisou = false; 
 		
 		ValueEventListener asdf = new ValueEventListener() {
 			@Override
@@ -57,10 +57,9 @@ public class ConfiguracaoFirebase {
 			public void onCancelled(DatabaseError error) {
 			}
 		};
-		
 		locaisRef.addValueEventListener(asdf);
-		
 		System.out.println(asdf.toString());
+		System.out.println("Pesquisou " + pesquisou);
 		
 	}
 

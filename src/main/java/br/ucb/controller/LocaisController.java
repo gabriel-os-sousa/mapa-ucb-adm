@@ -1,7 +1,6 @@
 package br.ucb.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -37,13 +36,15 @@ public class LocaisController extends HttpServlet {
 
 			// listar todos os locais
 			if (cmd.equalsIgnoreCase("listar")) {
-				List<Local> locais = new ArrayList<>();
+				
+				List<Local> locais = dao.obterLocais();
 				request.setAttribute("attrLocais", locais);
 				rd = request.getRequestDispatcher("locais.jsp");
 
 				// Prepara o formulário e o local
 			} else if (cmd.equalsIgnoreCase("inserir")) {
-				request.setAttribute("local", local);
+				local = new Local("", "", "", "", 0, 0);
+				request.setAttribute("attrLocal", local);
 				rd = request.getRequestDispatcher("localForm.jsp");
 
 				// adicionar local
@@ -53,17 +54,19 @@ public class LocaisController extends HttpServlet {
 
 				// Excluir local
 			} else if (cmd.equalsIgnoreCase("excluir")) {
-				dao.excluir(local);
+//				dao.excluir(local);
 				rd = request.getRequestDispatcher("locais?cmd=listar");
 
 				// Prepara o formulário e o local
 			} else if (cmd.equalsIgnoreCase("atualizar")) {
-				local = dao.obterLocal(local.getId());
-				request.setAttribute("local", local);
+				String id = request.getParameter("id");
+				local = dao.obterLocal(id);
+				request.setAttribute("attrLocal", local);
 				rd = request.getRequestDispatcher("localForm.jsp");
 
 				// Realiza a atualização do local
 			} else if (cmd.equalsIgnoreCase("doAtualizar")) {
+				local = getFromRequest(request);
 				dao.atualizar(local);
 				rd = request.getRequestDispatcher("locais?cmd=listar");
 			}
@@ -73,6 +76,15 @@ public class LocaisController extends HttpServlet {
 			erro.printStackTrace();
 			throw new ServletException(erro);
 		}
+	}
+
+	private Local getFromRequest(HttpServletRequest request) {
+		Local local = new Local();
+		local.setId(request.getParameter("id"));
+		local.setTipo(request.getParameter("tipo"));
+		local.setNome(request.getParameter("tipo"));
+		local.setDescricao(request.getParameter("descricao"));
+		return local;
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Local implements Serializable {
-	
+
 	private String id;
 	private String nome;
 	private String tipo;
@@ -19,7 +19,16 @@ public class Local implements Serializable {
 	public Local() {
 	}
 
-	
+	public Local(String id, String nome, String tipo, String descricao, double latitude, double longitude) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.tipo = tipo;
+		this.descricao = descricao;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+
 	@Override
 	public String toString() {
 		return " Nome: " + this.getNome() + " - Desc: " + this.getDescricao();
@@ -103,6 +112,6 @@ public class Local implements Serializable {
 	}
 
 	public void setDataCadastro(Long dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
+		this.dataCadastro = dataCadastro;
+	}
 }
