@@ -30,6 +30,18 @@ function initMap() {
       strictBounds: false,
     }
   });
+  
+  var latitudeAtual = document.getElementById("latitude").value;
+  var longitudeAtual = document.getElementById("longitude").value;
+  
+  if (latitudeAtual != '0' && longitudeAtual != '0') {
+	  var marker = new google.maps.Marker({
+		  position: {lat: parseFloat(latitudeAtual), lng: parseFloat(longitudeAtual)},
+		  map: map,
+		  title: 'Local selecionado'
+	  });
+	  markers.push(marker);
+  }
 
   // ########## Seta os limites do zoom correspondente #########
   var bounds = {

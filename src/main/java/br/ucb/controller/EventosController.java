@@ -1,8 +1,6 @@
 package br.ucb.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,8 +35,7 @@ public class EventosController extends HttpServlet {
 
 			// listar todos os eventos
 			if ("listar".equalsIgnoreCase(cmd)) {
-				List<Evento> eventos = new ArrayList<>();
-				request.setAttribute("attrEventos", eventos);
+				request.setAttribute("attrEventos", dao.obterEntidades("eventos"));
 				rd = request.getRequestDispatcher("eventos.jsp");
 
 				// Prepara o formulário e o evento
@@ -58,13 +55,13 @@ public class EventosController extends HttpServlet {
 
 				// Prepara o formulário e o evento
 			} else if (cmd.equalsIgnoreCase("atualizar")) {
-				evento = dao.obterEvento(evento.getIdentificador());
+				evento = dao.obterEvento(evento.getId());
 				request.setAttribute("evento", evento);
 				rd = request.getRequestDispatcher("eventoForm.jsp");
 
 				// Realiza a atualização do evento
-			} else if (cmd.equalsIgnoreCase("doAtualizar")) {
-				dao.atualizar(evento);
+			} else if (cmd.equalsIgnoreCase("doSalvar")) {
+				dao.salvar(evento);
 				rd = request.getRequestDispatcher("eventos?cmd=listar");
 			}
 			rd.forward(request, response);

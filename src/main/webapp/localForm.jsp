@@ -71,12 +71,6 @@
                   <input class="form-control" id="nome" name="nome" type="text" value="<%= local.getNome() %>">
                 </div>
                 
-<!-- 		        <div class="form-group"> -->
-<!-- 		          <label for="exampleFormControlSelect1">Example select</label> -->
-<!-- 		          <select class="form-control" id="exampleFormControlSelect1"> -->
-<!-- 		            <option>1</option> -->
-<!-- 		          </select> -->
-<!-- 		        </div> -->
 		        <div class="form-group">
 		          <label for="descricao">Descrição</label>
 		          <textarea class="form-control" id="descricao" name="descricao" rows="3" ><%= local.getDescricao() %></textarea>
@@ -90,9 +84,9 @@
 	              <input type="file" id="file" name="file" accept="image/*" style="margin-bottom: 5px;"/>
 	              <h6>URL do Arquivo:</h6>
 	              <span id="linkbox"></span>
-			    </div>
-			    <div style="width: 50px; height: 50px;">
-			    	<img id="myimg" alt="imagem" src="" >
+			      <div id="divImagem" style="width: 100px; height: 100px; display: none;" >
+			      	<img id="imagemLocal" alt="imagem" src="" style="width: 100%; height: auto;">
+			      </div>
 			    </div>
               </div>
                 
@@ -215,7 +209,7 @@
 
     auth.onAuthStateChanged(function(user) {
       if (user) {
-        console.log('Anonymous user signed-in.', user);
+        //console.log('Anonymous user signed-in.', user);
         document.getElementById('file').disabled = false;
       } else {
         console.log('There was no anonymous session. Creating a new anonymous user.');
@@ -243,8 +237,10 @@
     	  xhr.send();
 
     	  // Or inserted into an <img> element:
-    	  var img = document.getElementById('myimg');
+    	  var img = document.getElementById('imagemLocal');
     	  img.src = url;
+    	  document.getElementById("divImagem").style.display = "block";
+
     	}).catch(function(error) {
     	  // Handle any errors
     	});

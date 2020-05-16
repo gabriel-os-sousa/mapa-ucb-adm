@@ -5,6 +5,7 @@ url = !url.endsWith("jsp") ? "index.jsp" : url;
 
 boolean isEventoMenuAtivo = url.toUpperCase().contains("EVENTO");
 boolean isLocalMenuAtivo = url.toUpperCase().contains("LOCA");
+boolean isHome = url.toUpperCase().contains("INDEX");
 
 %>
 
@@ -23,7 +24,7 @@ boolean isLocalMenuAtivo = url.toUpperCase().contains("LOCA");
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item <%= url.toUpperCase().contains("INDEX.JSP") ? "active" : ""%>">
+      <li class="nav-item <%= isHome ? "active" : ""%>">
         <a class="nav-link" href="index.jsp">
           <i class="fas fa-fw fa-home"></i>
           <span>Home</span></a>
@@ -33,16 +34,16 @@ boolean isLocalMenuAtivo = url.toUpperCase().contains("LOCA");
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Menu <%= url %>
+        Menu
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
           <span>Opções</span>
         </a>
-        <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapsePages" class="collapse <%= !isHome ? "show" : ""%>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Administrativo:</h6>
             <a class="collapse-item <%= isEventoMenuAtivo ? "active" : ""%>" href="eventos">Eventos</a>
