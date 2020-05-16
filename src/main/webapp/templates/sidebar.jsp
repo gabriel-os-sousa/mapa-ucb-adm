@@ -2,6 +2,10 @@
 <%  
 String url = request.getRequestURI();
 url = !url.endsWith("jsp") ? "index.jsp" : url;
+
+boolean isEventoMenuAtivo = url.toUpperCase().contains("EVENTO");
+boolean isLocalMenuAtivo = url.toUpperCase().contains("LOCA");
+
 %>
 
 <!-- Sidebar -->
@@ -29,7 +33,7 @@ url = !url.endsWith("jsp") ? "index.jsp" : url;
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Menu
+        Menu <%= url %>
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
@@ -41,8 +45,8 @@ url = !url.endsWith("jsp") ? "index.jsp" : url;
         <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Administrativo:</h6>
-            <a class="collapse-item <%= url.toUpperCase().contains("EVENTOS.JSP") ? "active" : ""%>" href="eventos">Eventos</a>
-            <a class="collapse-item <%= url.toUpperCase().contains("LOCAIS.JSP") ? "active" : ""%>" href="locais">Locais</a>
+            <a class="collapse-item <%= isEventoMenuAtivo ? "active" : ""%>" href="eventos">Eventos</a>
+            <a class="collapse-item <%= isLocalMenuAtivo ? "active" : ""%>" href="locais">Locais</a>
             <div class="collapse-divider"></div>
             
             <h6 class="collapse-header">-----</h6>

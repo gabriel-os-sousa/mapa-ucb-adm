@@ -14,34 +14,36 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ConfiguracaoFirebase {
 
-	private static DatabaseReference database;
 	private static FirebaseAuth auth;
+	private static boolean isInitialized = false;
 
-	// retorna a instancia do FirebaseDatabase
-	public static DatabaseReference getFirebaseDatabase() {
-		if (database == null) {
-
+	public static FirebaseDatabase getFirebaseDatabase() {
+		if (!isInitialized) {
 			try {
 				InputStream serviceAccount = DatabaseReference.class.getClassLoader()
 						.getResourceAsStream("chave-privada.json");
 				FirebaseOptions options = new FirebaseOptions.Builder()
 						.setCredentials(GoogleCredentials.fromStream(serviceAccount))
 						.setDatabaseUrl("https://mapa-ucb.firebaseio.com").build();
-
 				FirebaseApp.initializeApp(options);
-				database = FirebaseDatabase.getInstance().getReference(); // retorna a referencia da raiz do banco
+				isInitialized = true;
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new IllegalStateException(e.getMessage(), e);
 			}
-
 		}
-		return database;
+		return FirebaseDatabase.getInstance();
+	}
+	
+
+	// retorna a instancia do FirebaseDatabase
+	public static DatabaseReference getDatabaseReference() {
+		return getFirebaseDatabase().getReference();
 	}
 
 	public static void main(String[] args) {
 		
-		DatabaseReference firebaseDatabase = ConfiguracaoFirebase.getFirebaseDatabase();
+		DatabaseReference firebaseDatabase = ConfiguracaoFirebase.getDatabaseReference();
 		DatabaseReference locaisRef = firebaseDatabase.child("/");
 		boolean pesquisou = false; 
 		

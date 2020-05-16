@@ -1,7 +1,6 @@
 package br.ucb.model.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.api.core.SettableApiFuture;
@@ -16,22 +15,53 @@ import br.ucb.model.Local;
 import br.ucb.util.ConfiguracaoFirebase;
 
 public class LocalDAO {
+	
+	public String getIdFirebase() {
+		DatabaseReference firebase =  ConfiguracaoFirebase.getDatabaseReference().child("locais");
+		String id = firebase.push().getKey();
+		return id;
+	}
 
 	public void salvar(Local local) {
+		if (local.isPersistido()) {
+			atualizar(local);
+		}
+		else {
+			inserir(local);
+		}
+	}
+	
+	private void inserir(Local local) {
+		DatabaseReference firebase =  ConfiguracaoFirebase.getDatabaseReference().child("locais");
+		String id = local.getId();
+		local.setDataCadastro(System.currentTimeMillis());
+		firebase.child(id).setValueAsync(local);
 	}
 
-	public void excluir(Local local) {
-	}
-
-	public void atualizar(Local local) {
-		Local localBanco = obterLocal(local.getId());
-		if (localBanco == null) {
+	private void atualizar(Local local) {
+		Local localPersistido = obterLocal(local.getId());
+		if (localPersistido == null) {
 			throw new IllegalStateException("Não foi localizado o Local com nome " + local.getNome());
 		}
-		localBanco.setNome(local.getNome());
-		localBanco.setTipo(local.getTipo());
-		localBanco.setDescricao(local.getDescricao());
+		localPersistido.setNome(local.getNome());
+		localPersistido.setTipo(local.getTipo());
+		localPersistido.setDescricao(local.getDescricao());
 		
+		DatabaseReference dr =  ConfiguracaoFirebase.getFirebaseDatabase().getReference("locais").child(local.getId());
+		dr.setValueAsync(localPersistido);
+	}
+	
+	public void excluir(Local local) {
+		Local localPersistido = obterLocal(local.getId());
+		if (localPersistido == null) {
+			throw new IllegalStateException("O Local não foi encontrado na base de dados.");
+		}
+		
+		try {
+			ConfiguracaoFirebase.getDatabaseReference().child("locais").child(localPersistido.getId()).removeValueAsync().get();
+		} catch (Exception e) {
+			throw new IllegalStateException(e.getMessage(), e);
+		}
 	}
 
 	public Local obterLocal(String id) {
@@ -41,11 +71,10 @@ public class LocalDAO {
 			// https://stackoverflow.com/questions/30659569/wait-until-firebase-retrieves-data
 			SettableApiFuture<DataSnapshot> future = SettableApiFuture.create();
 			
-			DatabaseReference locaisRef = ConfiguracaoFirebase.getFirebaseDatabase();
+			DatabaseReference locaisRef = ConfiguracaoFirebase.getDatabaseReference();
 			Query query = locaisRef.child("locais").orderByChild("id").equalTo(id);
 
 			ChildEventListener vel = new ChildEventListener() {
-				
 				@Override
 				public void onChildRemoved(DataSnapshot snapshot) {
 				}
@@ -99,7 +128,7 @@ public class LocalDAO {
 		// https://stackoverflow.com/questions/30659569/wait-until-firebase-retrieves-data
 		SettableApiFuture<DataSnapshot> future = SettableApiFuture.create();
 
-		DatabaseReference locaisRef = ConfiguracaoFirebase.getFirebaseDatabase().child(pathString);
+		DatabaseReference locaisRef = ConfiguracaoFirebase.getDatabaseReference().child(pathString);
 		
 		ValueEventListener vel = new ValueEventListener() {
 			@Override
@@ -119,13 +148,11 @@ public class LocalDAO {
 	public static void main(String[] args) {
 		LocalDAO dao = new LocalDAO();
 		
-		Local local = dao.obterLocal("-M5NC-UFkDqrKPOjgERw");
+		Local local = new Local();
+		local.setId("-M7TC2M6vwxde7-mC6U0");
+		dao.excluir(local);
 		
-		System.out.println(local.getDescricao());
-		local.setDescricao(new Date().toString());
-		
-		dao.atualizar(local);
-		System.out.println(local.getDescricao());
 	}
+
 
 }

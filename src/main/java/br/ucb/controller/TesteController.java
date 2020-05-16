@@ -25,7 +25,7 @@ public class TesteController extends HttpServlet {
 	private void doService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		List<Local> locais = new ArrayList<>();
 
-		DatabaseReference locaisRef = ConfiguracaoFirebase.getFirebaseDatabase().child("locais");
+		DatabaseReference locaisRef = ConfiguracaoFirebase.getDatabaseReference().child("locais");
 		ValueEventListener vel = new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {

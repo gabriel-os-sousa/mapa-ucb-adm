@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
+import com.google.firebase.database.Exclude;
+
 public class Local implements Serializable {
 
 	private String id;
@@ -34,6 +36,7 @@ public class Local implements Serializable {
 		return " Nome: " + this.getNome() + " - Desc: " + this.getDescricao();
 	}
 
+	@Exclude
 	public List<Local> getLocalVizinho() {
 		return localVizinho;
 	}
@@ -101,7 +104,13 @@ public class Local implements Serializable {
 	public Long getDataCadastro() {
 		return dataCadastro;
 	}
-
+	
+	@Exclude
+	public boolean isPersistido() {
+		return dataCadastro != null;
+	}
+	
+	@Exclude
 	public Calendar getDataCadastroCalendar() {
 		if (this.dataCadastro == null) {
 			return null;
