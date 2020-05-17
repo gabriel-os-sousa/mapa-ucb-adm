@@ -1,2 +1,2 @@
 # mapa-ucb-adm
-Gerência Mapa UCB
+Gerência de Administradores de Mapa UCB
