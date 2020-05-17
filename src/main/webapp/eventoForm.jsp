@@ -1,4 +1,5 @@
 <%@page import="br.ucb.model.Evento"%>
+<%@page import="br.ucb.model.Local"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -12,6 +13,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="Gabriel Sousa et al..">
+  
+  <link rel="stylesheet" type="text/css" href="css/geral.css">
 
   <title>Mapa UCB - ADM</title>
 
@@ -42,36 +45,34 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Eventos</h1>
+          <h1 class="h3 mb-4 text-gray-800">Cadastro de Local</h1>
+          <% Evento evento = (Evento) request.getAttribute("evento"); %>
           
-          <% 
-          	List<Evento> eventos = (List) request.getAttribute("attrEventos");
-          	for (Evento evento : eventos) {
-          %>
-          
-           <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary"><%= evento.getNome() %></h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-156px, 19px, 0px);">
-                      <div class="dropdown-header">Opções:</div>
-                      <a class="dropdown-item" href="eventos?cmd=inserir&id=<%= evento.getId() %>">Editar</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Deletar</a>
-                    </div>
-                  </div>
+          <!-- Basic Card Example -->
+          <div class="card shadow">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary"><%= evento.isPersistido() ? "Atualizar" : "Inserir" %></h6>
+            </div>
+            <div class="card-body">
+            
+              <form id="formEvento" action="eventos" method="post">
+                <input type="hidden" id="idLocal" name="id" value="<%= evento.getId() %>">
+                
+                <div class="form-group">
+                  <label for="tipo">Descrição</label>
+                  <input class="form-control" id="tipo" name="tipo" type="text" value="<%= evento.getDescricao() %>">
                 </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <%= evento.getDescricao() %>
-                </div>
-              </div>
+                
+              </form>
+              
+        	  <div style="margin-top: 20px;">
+    	          <button class="btn btn-outline-primary" type="submit" formaction="eventos?cmd=doSalvar" form="formEvento">Salvar</button>
+	        	  <button class="btn btn-outline-danger" type="submit" form="formEvento">Sair</button>
+        	  </div>
           
-          <% } %>
+            </div>
+          </div>
+
         </div>
         <!-- /.container-fluid -->
 
@@ -97,6 +98,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+  
 
 </body>
 
