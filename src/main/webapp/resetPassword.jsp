@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>MAPA UCB - Login</title>
+  <title>MAPA UCB - Reset Password</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -41,22 +41,12 @@
                   </div>
                   <form class="user" action="login" method="post">
                     <div class="form-group">
-                      <input type="email" name="usuario" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Usuário">
+                      <input type="email" name="email" class="form-control form-control-user" id="emailReset" aria-describedby="emailHelp" placeholder="Usuário">
                     </div>
-                    <div class="form-group">
-                      <input type="password" name="senha" class="form-control form-control-user" id="exampleInputPassword" placeholder="Senha">
-                    </div>
-                    <a href="login?cmd=doAutenticar" class="btn btn-primary btn-user btn-block">
-                      Login
-                    </a>
+                    <button class="btn btn-outline-primary" type="submit" formaction="login?cmd=doResetPassword">Enviar</button>
+                    <!-- <a href="login?cmd=doResetPassword" type="submit" class="btn btn-primary btn-user btn-block">Enviar email</a> -->
                     <hr>
                   </form>
-                  <div class="text-center">
-                    <a class="small" href="login?cmd=resetPassword">Esqueceu a senha?</a>
-                  </div>
-                  <!-- <div class="text-center">
-                    <a class="small" href="/locais?cmd=createAccount">Criar uma conta!</a>
-                  </div> -->
                 </div>
               </div>
             </div>

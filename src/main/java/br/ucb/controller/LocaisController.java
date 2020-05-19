@@ -29,42 +29,39 @@ public class LocaisController extends HttpServlet {
 		}
 
 		Local local = new Local();
-		LocalDAO dao = new LocalDAO();
-
 		try {
 			RequestDispatcher rd = null;
 
 			// listar todos os locais
 			if (cmd.equalsIgnoreCase("listar")) {
-
-				List<Local> locais = dao.obterLocais();
+				List<Local> locais = LocalDAO.getInstance().obterLocais();
 				request.setAttribute("attrLocais", locais);
 				rd = request.getRequestDispatcher("locais.jsp");
 
 				// Prepara o formulário e o local
 			} else if (cmd.equalsIgnoreCase("inserir")) {
 				local = new Local("", "", "", "", 0, 0);
-				local.setId(dao.getIdFirebase());
+				local.setId(LocalDAO.getInstance().getIdFirebase());
 				request.setAttribute("attrLocal", local);
 				rd = request.getRequestDispatcher("localForm.jsp");
 
 				// Excluir local
 			} else if (cmd.equalsIgnoreCase("excluir")) {
 				local.setId(request.getParameter("id"));
-				dao.excluir(local);
+				LocalDAO.getInstance().excluir(local);
 				rd = request.getRequestDispatcher("locais?cmd=listar");
 
 				// Prepara o formulário e o local
 			} else if (cmd.equalsIgnoreCase("atualizar")) {
 				String id = request.getParameter("id");
-				local = dao.obterLocal(id);
+				local = LocalDAO.getInstance().obterLocal(id);
 				request.setAttribute("attrLocal", local);
 				rd = request.getRequestDispatcher("localForm.jsp");
 
-				// Realiza a atualização do local
+				// Realiza a persistencia do local
 			} else if (cmd.equalsIgnoreCase("doSalvar")) {
 				local = getFromRequest(request);
-				dao.salvar(local);
+				LocalDAO.getInstance().salvar(local);
 				rd = request.getRequestDispatcher("locais?cmd=listar");
 			}
 			rd.forward(request, response);

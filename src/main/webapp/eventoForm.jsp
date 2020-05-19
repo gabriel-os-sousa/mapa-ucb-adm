@@ -46,7 +46,7 @@
         <div class="container-fluid">
           <!-- Page Heading -->
           <h1 class="h3 mb-4 text-gray-800">Cadastro de Local</h1>
-          <% Evento evento = (Evento) request.getAttribute("evento"); %>
+          <% Evento evento = (Evento) request.getAttribute("attrEvento"); %>
           
           <!-- Basic Card Example -->
           <div class="card shadow">
@@ -57,10 +57,33 @@
             
               <form id="formEvento" action="eventos" method="post">
                 <input type="hidden" id="idLocal" name="id" value="<%= evento.getId() %>">
+                <input type="hidden" name="dataCadastro" value="<%= evento.getDataCadastro() %>">
                 
                 <div class="form-group">
-                  <label for="tipo">Descrição</label>
-                  <input class="form-control" id="tipo" name="tipo" type="text" value="<%= evento.getDescricao() %>">
+                  <label for="tipo">Tipo</label>
+                  <input class="form-control" id="tipo" name="tipo" type="text" value="<%= evento.getTipo() %>">
+                </div>
+                
+                <div class="form-group">
+                  <label for="nome">Nome</label>
+                  <input class="form-control" id="nome" name="nome" type="text" value="<%= evento.getNome() %>">
+                </div>
+                
+                <div class="form-group">
+                  <label for="descricao">Descrição</label>
+                  <input class="form-control" id="descricao" name="descricao" type="text" value="<%= evento.getDescricao() %>">
+                </div>
+                
+                <div class="form-group">
+                   <label for="local">Local</label>
+                   <select class="form-control form-control-solid" id="local" name="local">
+                   		  <option value="-1">Selecione</option>	
+                   		<% List<Local> locais = (List) request.getAttribute("attrLocais");
+                		   for (Local local : locais) {
+                		 %>
+                           <option value="<%= local.getId() %>" <%= local.getId().equals(evento.getLocal()) ? "selected" : "" %> ><%= local.getTipoNome() %></option>
+                		 <% } %>
+                   </select>
                 </div>
                 
               </form>

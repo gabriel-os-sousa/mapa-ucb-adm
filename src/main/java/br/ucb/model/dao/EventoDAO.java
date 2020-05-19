@@ -1,5 +1,7 @@
 package br.ucb.model.dao;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.google.api.core.SettableApiFuture;
@@ -44,6 +46,7 @@ public class EventoDAO extends AbstractDAO<Evento> {
 		eventoPersistido.setNome(evento.getNome());
 		eventoPersistido.setTipo(evento.getTipo());
 		eventoPersistido.setDescricao(evento.getDescricao());
+		eventoPersistido.setLocal(evento.getLocal());
 		
 		DatabaseReference dr =  ConfiguracaoFirebase.getFirebaseDatabase().getReference("eventos").child(evento.getId());
 		dr.setValueAsync(eventoPersistido);
@@ -106,15 +109,11 @@ public class EventoDAO extends AbstractDAO<Evento> {
 		}
 		return evento;
 	}
-
-	public List<Evento> obterEventos() {
-		return super.obterEntidades("eventos");
-	}
 	
-	public static void main(String[] args) {
-		EventoDAO dao = new EventoDAO();
-		List<Evento> evento = dao.obterEventos();
-		System.out.println(evento.size());
+	@Override
+	public List<Evento> obterEntidades(String pathString) {
+		List<Evento> eventos = super.obterEntidades(pathString);
+		Collections.sort(eventos, Collections.reverseOrder(Comparator.comparing(Evento::getDataCadastro)));
+		return eventos;
 	}
-
 }

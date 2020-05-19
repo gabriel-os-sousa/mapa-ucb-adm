@@ -1,3 +1,4 @@
+<%@page import="br.ucb.util.Strings"%>
 <%@page import="br.ucb.model.Local"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -39,13 +40,36 @@
 
         <%@ include file="templates/topbar.jsp" %>
 
+        <!-- Toast container -->
+		<div style="position: absolute; right: 1rem;">
+		    <!-- Toast -->
+		    <div class="toast" id="toastBasic" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+		        <div class="toast-header">
+		            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+		                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell mr-2">
+		            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+		            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+		            <strong class="mr-auto">Mensagem! </strong>
+		            <button class="ml-2 mb-1 close" type="button" data-dismiss="toast" aria-label="Close">
+		            	<span aria-hidden="true">×</span>
+		            </button>
+		        </div>
+		        <div class="toast-body">Operação realizada com sucesso!</div>
+		    </div>
+		</div>
+		<script>
+		    window.onload = function() {
+		 	  $("#toastBasic").toast("show");
+		 	}
+		</script>
+
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
           <h1 class="h3 mb-4 text-gray-800">Lista de Locais</h1>
           
           <p class="mb-4">Listagem de locais cadastrados no Mapa da UCB</p>
-
+          
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -81,7 +105,7 @@
                       <td><%= local.getNome() %></td>
                       <td><%= local.getTipo() %></td>
                       <td><%= local.getDescricao() %></td>
-                      <td><%= local.getDataCadastro() %></td>
+                      <td><%= Strings.dateHourToString(local.getDataCadastro()) %></td>
                       <td>
                           <a href="locais?cmd=inserir" class="btn btn-success btn-circle btn-sm" title="Adicionar">
                             <i class="fas fa-plus"></i>

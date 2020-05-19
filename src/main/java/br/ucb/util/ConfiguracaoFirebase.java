@@ -5,7 +5,9 @@ import java.io.InputStream;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,35 +44,22 @@ public class ConfiguracaoFirebase {
 	}
 
 	public static void main(String[] args) {
-		
-		DatabaseReference firebaseDatabase = ConfiguracaoFirebase.getDatabaseReference();
-		DatabaseReference locaisRef = firebaseDatabase.child("/");
-		boolean pesquisou = false; 
-		
-		ValueEventListener asdf = new ValueEventListener() {
-			@Override
-			public void onDataChange(DataSnapshot snapshot) {
-				for (DataSnapshot dados : snapshot.getChildren()) {
-					System.out.println("--> " + dados.getValue());
-				}
-			}
-			
-			@Override
-			public void onCancelled(DatabaseError error) {
-			}
-		};
-		locaisRef.addValueEventListener(asdf);
-		System.out.println(asdf.toString());
-		System.out.println("Pesquisou " + pesquisou);
-		
+		try {
+			FirebaseAuth autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+			ActionCodeSettings settings = ActionCodeSettings.builder().setUrl("https://mapa-ucb-adm.herokuapp.com/eventos").setDynamicLinkDomain("mapa-ucb-adm.herokuapp.com").build();
+			String generateSignInWithEmailLink = autenticacao.generateSignInWithEmailLink("gabriiel.dfx@gmail.com", settings);
+			System.out.println(generateSignInWithEmailLink);
+		} catch (FirebaseAuthException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// retorna a instancia do FirebaseAuth
 	public static FirebaseAuth getFirebaseAutenticacao() {
 		if (auth == null) {
-			auth = FirebaseAuth.getInstance();
+			auth = FirebaseAuth.getInstance(getFirebaseDatabase().getApp());
 		}
 		return auth;
 	}
-
+	
 }

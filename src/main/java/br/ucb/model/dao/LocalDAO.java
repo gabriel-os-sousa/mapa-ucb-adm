@@ -14,6 +14,31 @@ import br.ucb.util.ConfiguracaoFirebase;
 
 public class LocalDAO extends AbstractDAO<Local> {
 	
+	private static LocalDAO instance;
+	private List<Local> locais;
+	
+	private LocalDAO() {
+	}
+	
+	public static LocalDAO getInstance() {
+		if (instance == null) {
+			instance = new LocalDAO();
+		}
+		return instance;
+	}
+	
+	
+	/**
+	 * Utilizar este método para evitar overhead no firebase
+	 * @return {@link List} Locais
+	 */
+	public List<Local> getLocaisPersisted() {
+		if (locais == null) {
+			locais = obterEntidades("locais");
+		}
+		return locais;
+	}
+	
 	public String getIdFirebase() {
 		DatabaseReference firebase =  ConfiguracaoFirebase.getDatabaseReference().child("locais");
 		String id = firebase.push().getKey();
@@ -27,6 +52,7 @@ public class LocalDAO extends AbstractDAO<Local> {
 		else {
 			inserir(local);
 		}
+		locais = null;
 	}
 	
 	private void inserir(Local local) {
@@ -34,7 +60,7 @@ public class LocalDAO extends AbstractDAO<Local> {
 		String id = local.getId();
 		local.setDataCadastro(System.currentTimeMillis());
 		firebase.child(id).setValueAsync(local);
-		
+		locais = null;
 	}
 
 	private void atualizar(Local local) {
@@ -45,9 +71,12 @@ public class LocalDAO extends AbstractDAO<Local> {
 		localPersistido.setNome(local.getNome());
 		localPersistido.setTipo(local.getTipo());
 		localPersistido.setDescricao(local.getDescricao());
+		localPersistido.setLatitude(local.getLatitude());
+		localPersistido.setLongitude(local.getLongitude());
 		
 		DatabaseReference dr =  ConfiguracaoFirebase.getFirebaseDatabase().getReference("locais").child(local.getId());
 		dr.setValueAsync(localPersistido);
+		locais = null;
 	}
 	
 	public void excluir(Local local) {
@@ -61,6 +90,7 @@ public class LocalDAO extends AbstractDAO<Local> {
 		} catch (Exception e) {
 			throw new IllegalStateException(e.getMessage(), e);
 		}
+		locais = null;
 	}
 
 	public Local obterLocal(String id) {

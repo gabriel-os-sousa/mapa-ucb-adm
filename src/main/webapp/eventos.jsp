@@ -1,3 +1,4 @@
+<%@page import="br.ucb.util.Strings"%>
 <%@page import="br.ucb.model.Evento"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -42,7 +43,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Eventos</h1>
+          <h1 class="h3 mb-4 text-gray-800">Eventos <a href="eventos?cmd=inserir">Inserir</a></h1>
           
           <% 
           	List<Evento> eventos = (List) request.getAttribute("attrEventos");
@@ -59,7 +60,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-156px, 19px, 0px);">
                       <div class="dropdown-header">Opções:</div>
-                      <a class="dropdown-item" href="eventos?cmd=inserir&id=<%= evento.getId() %>">Editar</a>
+                      <a class="dropdown-item" href="eventos?cmd=atualizar&id=<%= evento.getId() %>">Editar</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="#">Deletar</a>
                     </div>
@@ -67,7 +68,10 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <%= evento.getDescricao() %>
+                  <p>Tipo: <%= evento.getTipo() %></p>
+                  <p>Local: <%= evento.getTipoNomeLocal() %></p>
+                  <p>Descrição: <%= evento.getDescricao() %></p>
+                  <p>Data de cadastro: <%= Strings.dateHourToString(evento.getDataCadastro()) %></p>
                 </div>
               </div>
           
