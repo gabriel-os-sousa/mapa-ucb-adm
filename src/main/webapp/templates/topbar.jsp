@@ -1,3 +1,4 @@
+<%@page import="br.ucb.model.Usuario"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -9,6 +10,8 @@
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
+          
+          <% Usuario usuario = (Usuario) session.getAttribute("attrUsuarioLogado"); %>
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
             <li class="nav-item dropdown no-arrow d-sm-none">
@@ -33,7 +36,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nome do Usuário</span>
+                <span id="userNameTopbar" class="mr-2 d-none d-lg-inline text-gray-600 small"><%= usuario.getNome() %></span>
                 <img class="img-profile rounded-circle" src="https://img.icons8.com/officel/80/000000/user.png">
               </a>
               <!-- Dropdown - User Information -->

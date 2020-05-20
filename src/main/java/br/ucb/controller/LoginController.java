@@ -15,6 +15,8 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
+import com.google.firebase.auth.UserRecord;
 import com.google.firebase.auth.internal.FirebaseCustomAuthToken;
 
 import br.ucb.model.Usuario;
@@ -30,7 +32,7 @@ public class LoginController extends HttpServlet {
 		
 		String cmd = request.getParameter("cmd");
 		if (cmd == null) {
-			cmd = "doAutenticar";
+			cmd = "login";
 		}
 
 				
@@ -39,42 +41,51 @@ public class LoginController extends HttpServlet {
 
 			// Loggin 
 			if (cmd.equalsIgnoreCase("doAutenticar")) {
-				//Recuperar os campos da requisição
-				String usuario = request.getParameter("usuario");
-				String senha = request.getParameter("senha");
+				System.out.println(cmd);
+				String idToken = request.getParameter("idToken");
+				System.out.println("idToken: "+idToken);
 				
-				FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAutenticacao();
+				// Configura o SDK de authentication firebase
+				FirebaseAuth auth = ConfiguracaoFirebase.getFirebaseAutenticacao();
 				
+				// Decodifica o token id
+				FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+				
+				//Recupera os dados do usuário
+				UserRecord usuarioRecuperado = auth.getUser(decodedToken.getUid());
+				System.out.println("Successfully fetched user data: " + usuarioRecuperado.getUid() + " "+ usuarioRecuperado.getDisplayName());
+				
+				// Cria um objeto Usuário com os dados recuperados do firebase
+				Usuario usuarioLogado = new Usuario();
+				usuarioLogado.setId(usuarioRecuperado.getUid());
+				usuarioLogado.setNome(usuarioRecuperado.getDisplayName());
+				usuarioLogado.setEmail(usuarioRecuperado.getEmail());
+
 				// Ao charmar getSession(true), ele cria uma nova sessão
 				HttpSession session = request.getSession(true);
 				
 				//Salva o usuarioLogado na sessão
-				Usuario usuarioLogado = new Usuario();
-				session.setAttribute("usuarioLogado", usuarioLogado);
+				session.setAttribute("attrUsuarioLogado", usuarioLogado);
 				
 				rd = request.getRequestDispatcher("index.jsp");
 
-				// Resetar Senha
-			} else if (cmd.equalsIgnoreCase("resetPassword")) {
-				rd = request.getRequestDispatcher("resetPassword.jsp");
-				
-			} else if (cmd.equalsIgnoreCase("doResetPassword")) {
-				//Recuperar os campos da requisição
-				//String email = request.getParameter("email");
-				String email = "gabriiel.dfx@gmail.com";
-				FirebaseAuth auth = ConfiguracaoFirebase.getFirebaseAutenticacao();
-			
-				ActionCodeSettings settings = ActionCodeSettings.builder().;
-				auth.generateSignInWithEmailLink(email, settings);
-
-					try {
-						auth.generatePasswordResetLink(email);
-					} catch (FirebaseAuthException e) {
-						System.out.println("Error generating email link: " + e.getMessage());
-					}
+				// Resetar Senha - Abre o form de reset de senha
+			} else if (cmd.equalsIgnoreCase("doLogout")) {
+				//remove o usuario logado da sesão para cair no webfilter e redirecionar para a página de login
+				System.out.println(cmd);
+				String idToken = request.getParameter("idToken");
+				System.out.println("idToken: "+idToken);
+				HttpSession session = request.getSession(false);
 								
-				rd = request.getRequestDispatcher("index.jsp");
-			} 
+				session.removeAttribute("attrUsuarioLogado");
+				//coloquei uma pagina diferente para ver se o filter está funcionando
+				
+				rd = request.getRequestDispatcher("login.jsp");
+			} else if (cmd.equalsIgnoreCase("login")) {
+				System.out.println(cmd);
+				rd = request.getRequestDispatcher("login.jsp");
+			} 				
+			
 			rd.forward(request, response);
 
 		} catch (Exception erro) {
@@ -82,10 +93,7 @@ public class LoginController extends HttpServlet {
 		}
 		
 	}
-	public static void main(String[] args) {
-		System.out.println();
-	}
-	
+		
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		process(req, resp);

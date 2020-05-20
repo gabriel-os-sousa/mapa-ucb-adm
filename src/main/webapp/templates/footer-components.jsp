@@ -17,7 +17,8 @@
         <div class="modal-body">Selecione "Sair" abaixo se você estiver pronto para encerrar sua sessão atual.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="login.jsp">Sair</a>
+<!--           <a class="btn btn-primary" href="login.jsp" onclick="doLogout()">Sair</a> -->
+          <button class="btn btn-primary" onclick="doLogout()">Sair</button>
         </div>
       </div>
     </div>

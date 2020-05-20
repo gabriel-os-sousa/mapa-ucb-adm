@@ -43,7 +43,7 @@
                     <div class="form-group">
                       <input type="email" name="email" class="form-control form-control-user" id="emailReset" aria-describedby="emailHelp" placeholder="Usuário">
                     </div>
-                    <button class="btn btn-outline-primary" type="submit" formaction="login?cmd=doResetPassword">Enviar</button>
+                    <button class="btn btn-primary btn-user btn-block" type="submit" formaction="login?cmd=doResetPassword">Enviar</button>
                     <!-- <a href="login?cmd=doResetPassword" type="submit" class="btn btn-primary btn-user btn-block">Enviar email</a> -->
                     <hr>
                   </form>

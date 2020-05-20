@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * https://www.codejava.net/java-ee/servlet/how-to-implement-authentication-filter-for-java-web-application
  */
-@WebFilter("/admin/")
+@WebFilter("/*")
 public class AuthenticationFilter implements Filter{
 
 	@Override
@@ -32,7 +32,7 @@ public class AuthenticationFilter implements Filter{
 		// Ao charmar getSession(false), recupera a sessão sem ter que criar uma nova
         HttpSession session = httpRequest.getSession(false);
  
-        boolean isLoggedIn = (session != null && session.getAttribute("usuarioLogado") != null); 
+        boolean isLoggedIn = (session != null && session.getAttribute("attrUsuarioLogado") != null); 
  
         String loginURI = httpRequest.getContextPath() + "/login";
  
@@ -40,17 +40,18 @@ public class AuthenticationFilter implements Filter{
  
         boolean isLoginPage = httpRequest.getRequestURI().endsWith("login.jsp");
  
-        if (isLoggedIn && (isLoginRequest || isLoginPage)) {
-            // the admin is already logged in and he's trying to login again
-            // then forwards to the admin's homepage
-
-        	// O usuario já está logado e está tentando logar novamente
-            // então manda o usuario para página inicial
-        	
-        	RequestDispatcher dispatcher = request.getRequestDispatcher("/");
-            dispatcher.forward(request, response);
- 
-        } else if (isLoggedIn || isLoginRequest) {
+//        if (isLoggedIn && (isLoginRequest || isLoginPage)) {
+//            // the admin is already logged in and he's trying to login again
+//            // then forwards to the admin's homepage
+//
+//        	// O usuario já está logado e está tentando logar novamente
+//            // então manda o usuario para página inicial
+//        	
+//        	RequestDispatcher dispatcher = request.getRequestDispatcher("/");
+//            dispatcher.forward(request, response);
+// 
+//        } else 
+        if (isLoggedIn || isLoginRequest) {
             // continues the filter chain
             // allows the request to reach the destination
         	
@@ -64,6 +65,7 @@ public class AuthenticationFilter implements Filter{
         	
         	// o usuario não está logado, então a autenticacao é requerida
         	// é encaminhado para a página de login
+        	System.out.println("required");
             RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
             dispatcher.forward(request, response);
         }
