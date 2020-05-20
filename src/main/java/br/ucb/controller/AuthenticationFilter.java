@@ -39,6 +39,7 @@ public class AuthenticationFilter implements Filter{
         boolean isLoginRequest = httpRequest.getRequestURI().equals(loginURI);
  
         boolean isLoginPage = httpRequest.getRequestURI().endsWith("login.jsp");
+        boolean isCss = httpRequest.getRequestURI().matches(".*(css|jpg|png|gif|js)");
  
 //        if (isLoggedIn && (isLoginRequest || isLoginPage)) {
 //            // the admin is already logged in and he's trying to login again
@@ -51,7 +52,7 @@ public class AuthenticationFilter implements Filter{
 //            dispatcher.forward(request, response);
 // 
 //        } else 
-        if (isLoggedIn || isLoginRequest) {
+        if (isLoggedIn || isLoginRequest || isCss) {
             // continues the filter chain
             // allows the request to reach the destination
         	
