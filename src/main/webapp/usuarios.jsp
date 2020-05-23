@@ -1,5 +1,5 @@
 <%@page import="br.ucb.util.Strings"%>
-<%@page import="br.ucb.model.Local"%>
+<%@page import="br.ucb.model.Usuario"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -69,56 +69,63 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Locais
-	          <a href="locais?cmd=inserir" class="btn btn-success btn-circle btn-sm" title="Adicionar">
+          <h1 class="h3 mb-4 text-gray-800">Usuarios Administrativos
+	          <a href="usuarios?cmd=inserir" class="btn btn-success btn-circle btn-sm" title="Adicionar">
 	            <i class="fas fa-plus"></i>
 	          </a>
           </h1>
           
           
-          <p class="mb-4">Listagem de locais cadastrados no Mapa da UCB</p>
+          <p class="mb-4">Listagem de Usuarios Administrativos do Mapa UCB</p>
           
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary" style="display: inline">Locais</h6>
+              <h6 class="m-0 font-weight-bold text-primary" style="display: inline">Usuarios</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Nome</th>
+                      <th>Nome de Exibição</th>
+                      <th>email</th>
                       <th>Tipo</th>
-                      <th>Descrição</th>
-                      <th>Data Cadastro</th>
+                      <th>ID</th>
                       <th>Ações</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>Nome</th>
+                      <th>Nome de Exibição</th>
+                      <th>email</th>
                       <th>Tipo</th>
-                      <th>Descrição</th>
-                      <th>Data Cadastro</th>
+                      <th>ID</th>
                       <th>Ações</th>
                     </tr>
                   </tfoot>
                   <tbody>
                   <%
-                      List<Local> locais = (List) request.getAttribute("attrLocais");
-		              for (Local local : locais) {
+                  	  List<Usuario> usuarios = (List) request.getAttribute("attrUsuarios");
+                  
+		              for (Usuario usuario : usuarios) {
                   %>
                     <tr>
-                      <td><%= local.getNome() %></td>
-                      <td><%= local.getTipo() %></td>
-                      <td><%= local.getDescricao() %></td>
-                      <td><%= Strings.dateHourToString(local.getDataCadastro()) %></td>
+                      <td><%= usuario.getUserRecord().getDisplayName() %></td>
+                      <td><%= usuario.getUserRecord().getEmail() %></td>
+                      <td><%  if(usuario.getUserRecord().getCustomClaims().get("admin") != null){
+                    		    out.print("Administrador Master");  
+		                      } else {
+		                    	out.print("Administrador");
+		                      }
+                    	  %>
+                      </td>
+                      <td><%= usuario.getUserRecord().getUid() %></td>
                       <td>
-                          <a href="locais?cmd=atualizar&id=<%=local.getId()%>" class="btn btn-success btn-circle btn-sm" title="Atualizar">
+                          <a href="usuarios?cmd=atualizar&id=<%= usuario.getUserRecord().getUid()%>" class="btn btn-success btn-circle btn-sm" title="Atualizar">
                             <i class="fas fa-edit"></i>
                           </a>
-                          <a href="locais?cmd=excluir&id=<%=local.getId()%>" class="btn btn-danger btn-circle btn-sm" title="Excluir">
+                          <a href="usuarios?cmd=excluir&id=<%= usuario.getUserRecord().getUid()%>" class="btn btn-danger btn-circle btn-sm" title="Excluir">
                             <i class="fas fa-trash"></i>
                           </a>
                       </td>

@@ -1,5 +1,4 @@
-<%@page import="br.ucb.model.Evento"%>
-<%@page import="br.ucb.model.Local"%>
+<%@page import="br.ucb.model.Usuario"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -45,52 +44,42 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Cadastro de Local</h1>
-          <% Evento evento = (Evento) request.getAttribute("attrEvento"); %>
+          <% Usuario usuario = (Usuario) request.getAttribute("attrUsuario"); %>
+          <h1 class="h3 mb-4 text-gray-800">Usuários</h1>
           
           <!-- Basic Card Example -->
           <div class="card shadow">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary"><%= evento.isPersistido() ? "Atualizar" : "Inserir" %></h6>
+              <h6 class="m-0 font-weight-bold text-primary"><%= usuario.isPersisted() ? "Atualizar" : "Inserir" %></h6>
             </div>
             <div class="card-body">
             
-              <form id="formEvento" action="eventos" method="post">
-                <input type="hidden" id="idLocal" name="id" value="<%= evento.getId() %>">
-                <input type="hidden" name="dataCadastro" value="<%= evento.getDataCadastro() %>">
+              <form id="formUsuario" action="usuarios" method="post">
+                <input type="hidden" id="idUsuario" name="id" value="<%= usuario.isPersisted() ? usuario.getUserRecord().getUid() : "" %>">
+                <%-- <input type="hidden" id="latitude"  name="latitude" type="text" value="<%= local.getLatitude() %>">
+	            <input type="hidden" id="longitude" name="longitude" type="text" value="<%= local.getLongitude() %>"> --%>
                 
                 <div class="form-group">
-                  <label for="tipo">Tipo</label>
-                  <input class="form-control" id="tipo" name="tipo" type="text" value="<%= evento.getTipo() %>">
+                  <label for="tipo">Nome de exibição</label>
+                  <input class="form-control" id="tipo" name="displayName" type="text" value="<%= usuario.isPersisted() ? usuario.getUserRecord().getDisplayName() : "" %>">
                 </div>
+                
                 
                 <div class="form-group">
-                  <label for="nome">Nome</label>
-                  <input class="form-control" id="nome" name="nome" type="text" value="<%= evento.getNome() %>">
+                  <label for="tipo">Email</label>
+                  <input class="form-control" id="email" name="email" type="text" value="<%= usuario.isPersisted() ? usuario.getUserRecord().getEmail() : ""%>">
                 </div>
                 
-                <div class="form-group">
-                  <label for="descricao">Descrição</label>
-                  <input class="form-control" id="descricao" name="descricao" type="text" value="<%= evento.getDescricao() %>">
-                </div>
-                
-                <div class="form-group">
-                   <label for="local">Local</label>
-                   <select class="form-control form-control-solid" id="local" name="local">
-                   		  <option value="-1">Selecione</option>	
-                   		<% List<Local> locais = (List) request.getAttribute("attrLocais");
-                		   for (Local local : locais) {
-                		 %>
-                           <option value="<%= local.getId() %>" <%= local.getId().equals(evento.getLocal()) ? "selected" : "" %> ><%= local.getTipoNome() %></option>
-                		 <% } %>
-                   </select>
-                </div>
-                
+		        <div class="form-group">
+		          <label for="descricao">Tipo</label>
+                  <input class="form-control" id="tipo" name="tipo" type="text" value="<%= usuario.isPersisted() ? usuario.getUserRecord().getCustomClaims().get("admin") : "" %>">
+		        </div>
               </form>
               
+        	  
         	  <div style="margin-top: 20px;">
-    	          <button class="btn btn-outline-primary" type="submit" formaction="eventos?cmd=doSalvar" form="formEvento">Salvar</button>
-	        	  <button class="btn btn-outline-danger" type="submit" form="formEvento">Sair</button>
+    	          <button class="btn btn-outline-primary" type="submit" formaction="usuarios?cmd=doSalvar" form="formUsuario">Salvar</button>
+	        	  <button class="btn btn-outline-danger" type="submit" form="formUsuario">Sair</button>
         	  </div>
           
             </div>
@@ -110,6 +99,11 @@
   </div>
   <!-- End of Page Wrapper -->
   
+  <!-- Form logout -->
+	<form style="display: none" action="login" method="POST" id="formLogout">
+	  <input type="hidden" id="cmd" name="cmd" value=""/>
+	</form>
+  
   <%@ include file="templates/components.jsp" %>
 
   <!-- Bootstrap core JavaScript-->
@@ -122,7 +116,15 @@
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
   
-
+   <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+  
+  <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
+  
+  <!-- Métodos firebase -->
+  <script src="js/firebase-metodos.js"></script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
 
@@ -95,11 +95,11 @@
 			    <div class="card-header">Localização</div>
 			    <div class="card-body">
                 <div class="form-group">
-                  <div style="width:50%; display:inline-block;"  >
+                  <div style="width:100%; display:inline-block;"  >
 	                  <label for="latitudeAux">Latitude</label>
 	                  <input class="form-control" id="latitudeAux" name="latitudeAux" type="text" value="<%= local.getLatitude() %> " disabled="disable">
                   </div>
-                  <div style="width:50%; display:inline-block;">
+                  <div style="width:100%; display:inline-block;">
 	                  <label for="longitudeAux">Longitude</label>
 	                  <input class="form-control" id="longitudeAux" name="longitudeAux" type="text" value="<%= local.getLongitude() %>" disabled="disable">
                   </div>
@@ -131,7 +131,12 @@
   </div>
   <!-- End of Page Wrapper -->
   
-  <%@ include file="templates/footer-components.jsp" %>
+  <!-- Form logout -->
+	<form style="display: none" action="login" method="POST" id="formLogout">
+	  <input type="hidden" id="cmd" name="cmd" value=""/>
+	</form>
+  
+  <%@ include file="templates/components.jsp" %>
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -146,11 +151,13 @@
    <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
   
-  <!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-analytics.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-storage.js"></script>
+  
+  <!-- Métodos firebase -->
+  <script src="js/firebase-metodos.js"></script>
   
   <script>
   

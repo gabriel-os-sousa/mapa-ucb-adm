@@ -11,8 +11,6 @@
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
           
-          <% Usuario usuario = (Usuario) session.getAttribute("attrUsuarioLogado"); %>
-
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
             <li class="nav-item dropdown no-arrow d-sm-none">
               <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -36,7 +34,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span id="userNameTopbar" class="mr-2 d-none d-lg-inline text-gray-600 small"><%= usuario.getNome() %></span>
+                <span id="userNameTopbar" class="mr-2 d-none d-lg-inline text-gray-600 small"><%= usuarioLogado.getUserRecord().getDisplayName() %></span>
                 <img class="img-profile rounded-circle" src="https://img.icons8.com/officel/80/000000/user.png">
               </a>
               <!-- Dropdown - User Information -->

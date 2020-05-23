@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import br.ucb.model.Local;
 import br.ucb.model.dao.LocalDAO;
@@ -37,6 +36,19 @@ public class LocaisController extends HttpServlet {
 			if (cmd.equalsIgnoreCase("listar")) {
 				List<Local> locais = LocalDAO.getInstance().obterLocais();
 				request.setAttribute("attrLocais", locais);
+				
+//				String mensagem = request.getParameter("msg");
+//				if (mensagem == null) {
+//					mensagem = "Listagem completa";
+//					request.setAttribute("mensagem", mensagem);
+//				} else if (mensagem.equalsIgnoreCase("doSalvar")){
+//					mensagem = "Local salvo com sucesso!";
+//					request.setAttribute("mensagem", mensagem);
+//				} else if (mensagem.equalsIgnoreCase("excluir")){
+//					mensagem = "Local excluído com sucesso!";
+//					request.setAttribute("mensagem", mensagem);
+//				}
+				
 				rd = request.getRequestDispatcher("locais.jsp");
 
 				// Prepara o formulário e o local
@@ -50,6 +62,7 @@ public class LocaisController extends HttpServlet {
 			} else if (cmd.equalsIgnoreCase("excluir")) {
 				local.setId(request.getParameter("id"));
 				LocalDAO.getInstance().excluir(local);
+				request.setAttribute("msg", cmd);
 				rd = request.getRequestDispatcher("locais?cmd=listar");
 
 				// Prepara o formulário e o local
@@ -63,6 +76,7 @@ public class LocaisController extends HttpServlet {
 			} else if (cmd.equalsIgnoreCase("doSalvar")) {
 				local = getFromRequest(request);
 				LocalDAO.getInstance().salvar(local);
+				request.setAttribute("msg", cmd);
 				rd = request.getRequestDispatcher("locais?cmd=listar");
 			}
 			

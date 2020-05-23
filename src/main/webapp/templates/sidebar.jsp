@@ -1,3 +1,4 @@
+<%@page import="br.ucb.model.Usuario"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%  
 String url = request.getRequestURI();
@@ -7,6 +8,10 @@ boolean isEventoMenuAtivo = url.toUpperCase().contains("EVENTO");
 boolean isLocalMenuAtivo = url.toUpperCase().contains("LOCA");
 boolean isHome = url.toUpperCase().contains("INDEX");
 
+// verifica se é admin
+Usuario usuarioLogado = (Usuario) session.getAttribute("attrUsuarioLogado");
+boolean isAdmin = usuarioLogado.isAdmin();
+boolean isUsuarioMenuAtivo = url.toUpperCase().contains("USUARIO");
 %>
 
 <!-- Sidebar -->
@@ -48,6 +53,9 @@ boolean isHome = url.toUpperCase().contains("INDEX");
             <h6 class="collapse-header">Administrativo:</h6>
             <a class="collapse-item <%= isEventoMenuAtivo ? "active" : ""%>" href="eventos">Eventos</a>
             <a class="collapse-item <%= isLocalMenuAtivo ? "active" : ""%>" href="locais">Locais</a>
+            <% if(isAdmin){ %>
+            	<a class="collapse-item <%= isUsuarioMenuAtivo ? "active" : ""%>" href="usuarios">Usuários</a>
+			<% }%>
             <div class="collapse-divider"></div>
             
             <h6 class="collapse-header">-----</h6>

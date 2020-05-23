@@ -2,7 +2,10 @@ package br.ucb.model;
 
 import java.io.Serializable;
 
-public class Usuario implements Serializable{
+import com.google.firebase.auth.UserRecord;
+import com.google.firebase.database.Exclude;
+
+public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String id;
@@ -12,7 +15,7 @@ public class Usuario implements Serializable{
 	private String senha;
 	private String tipo;
 	private Long dataCadastro;
-	
+	private UserRecord userRecord;
 	
 	public Usuario() {
 	}
@@ -61,5 +64,24 @@ public class Usuario implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public UserRecord getUserRecord() {
+		return userRecord;
+	}
+
+	public void setUserRecord(UserRecord userRecord) {
+		this.userRecord = userRecord;
+	}
+	
+	@Exclude
+	public boolean isAdmin() {
+		return (boolean) this.userRecord.getCustomClaims().get("admin");
+	}
+	
+	public boolean isPersisted() {
+		if(this.userRecord != null) 
+			return true;
+		return false;
 	}
 }

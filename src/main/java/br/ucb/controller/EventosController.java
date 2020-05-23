@@ -40,6 +40,7 @@ public class EventosController extends HttpServlet {
 
 			// listar todos os eventos
 			if ("listar".equalsIgnoreCase(cmd)) {
+
 				List<Evento> eventos = dao.obterEntidades("eventos");
 				
 				// Tratamento para associar o Evento ao Local
@@ -52,6 +53,7 @@ public class EventosController extends HttpServlet {
 				}
 				
 				request.setAttribute("attrEventos", eventos);
+				
 				rd = request.getRequestDispatcher("eventos.jsp");
 
 				// Prepara o formulário e o evento
