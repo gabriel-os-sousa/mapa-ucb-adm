@@ -66,16 +66,16 @@
                       <div class="dropdown-header">Opções:</div>
                       <a class="dropdown-item" href="eventos?cmd=atualizar&id=<%= evento.getId() %>">Editar</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Deletar</a>
+                      <a class="dropdown-item" href="eventos?cmd=excluir&id=<%= evento.getId() %>">Excluir</a>
                     </div>
                   </div>
                 </div>
                 <!-- Card Body -->
-                <div class="card-body">
-                  <p>Tipo: <%= evento.getTipo() %></p>
-                  <p>Local: <%= evento.getTipoNomeLocal() %></p>
-                  <p>Descrição: <%= evento.getDescricao() %></p>
-                  <p>Data de cadastro: <%= Strings.dateHourToString(evento.getDataCadastro()) %></p>
+                <div class="card-body" style="padding: 0.75rem;">
+                  <p><span><b>Tipo:</b> <%= evento.getTipo() %></span><span> - <b>Local:</b> <%= evento.getTipoNomeLocal() %></span></p>
+                  <p><span><b>Data Inicio:</b> <%= Strings.dateToString(evento.getData_inicio()) %></span><span> - <b>Data Fim:</b> <%= Strings.dateToString(evento.getData_fim()) %></span></p>
+                  <p><b>Descrição:</b> <%= evento.getDescricao() %></p>
+                  <p><b>Data de cadastro:</b> <%= Strings.dateHourToString(evento.getDataCadastro()) %></p>
                 </div>
               </div>
           
@@ -113,7 +113,6 @@
   
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
-   <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
   
   <!-- Métodos firebase -->

@@ -1,13 +1,14 @@
 <%@page import="br.ucb.model.Local"%>
 <%@page import="java.util.List"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
 
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type"  content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -54,26 +55,35 @@
             </div>
             <div class="card-body">
             
-              <form id="formLocal" action="locais" method="post">
+              <form id="formLocal" action="locais" method="POST">
                 <input type="hidden" id="idLocal" name="id" value="<%= local.getId() %>">
                 <input type="hidden" name="dataCadastro" value="<%= local.getDataCadastro() %>">
                 <input type="hidden" id="latitude"  name="latitude" type="text" value="<%= local.getLatitude() %>">
 	            <input type="hidden" id="longitude" name="longitude" type="text" value="<%= local.getLongitude() %>">
                 
                 <div class="form-group">
-                  <label for="tipo">Tipo</label>
-                  <input class="form-control" id="tipo" name="tipo" type="text" value="<%= local.getTipo() %>">
-                </div>
-                
-                
-                <div class="form-group">
                   <label for="tipo">Nome</label>
                   <input class="form-control" id="nome" name="nome" type="text" value="<%= local.getNome() %>">
+                </div>
+
+                <div class="form-group">
+                  <label for="tipo">Tipo</label>
+                  <input class="form-control" id="tipo" name="tipo" type="text" value="<%= local.getTipo() %>">
                 </div>
                 
 		        <div class="form-group">
 		          <label for="descricao">Descrição</label>
 		          <textarea class="form-control" id="descricao" name="descricao" rows="3" ><%= local.getDescricao() %></textarea>
+		        </div>
+		        
+		        <div class="form-group">
+		          <label for="zIndex">zIndex</label>
+                  <input class="form-control" id="zIndex" name="zIndex" type="number" min="0" max="1000" value="<%= local.getzIndex() %>">
+		        </div>
+
+		        <div class="form-group">
+		          <label for="andar">Andar</label>
+                  <input class="form-control" id="andar" name="andar" type="number" min="0" max="6" value="<%= local.getAndar() %>">
 		        </div>
               </form>
               
@@ -150,8 +160,6 @@
   
    <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
-  
-  <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-analytics.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-storage.js"></script>
@@ -161,19 +169,6 @@
   
   <script>
   
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyB9HfiV3qwuQS9CJ-i7PS_CwJgtY6t25V8",
-    authDomain: "mapa-ucb.firebaseapp.com",
-    databaseURL: "https://mapa-ucb.firebaseio.com",
-    projectId: "mapa-ucb",
-    storageBucket: "mapa-ucb.appspot.com",
-    messagingSenderId: "157393312409",
-    appId: "1:157393312409:web:56c0100b3f69693bc7b608",
-    measurementId: "G-YN4P62W1K5"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
   firebase.analytics();
   
   var auth = firebase.auth();
@@ -223,8 +218,7 @@
         // Sign the user in anonymously since accessing Storage requires the user to be authorized.
         auth.signInAnonymously().catch(function(error) {
           if (error.code === 'auth/operation-not-allowed') {
-            window.alert('Anonymous Sign-in failed. Please make sure that you have enabled anonymous ' +
-                'sign-in on your Firebase project.');
+            window.alert('Anonymous Sign-in failed. Please make sure that you have enabled anonymous ' + 'sign-in on your Firebase project.');
           }
         });
       }

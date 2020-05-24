@@ -60,23 +60,33 @@
 	            <input type="hidden" id="longitude" name="longitude" type="text" value="<%= local.getLongitude() %>"> --%>
                 
                 <div class="form-group">
-                  <label for="tipo">Nome de exibição</label>
-                  <input class="form-control" id="tipo" name="displayName" type="text" value="<%= usuario.isPersisted() ? usuario.getUserRecord().getDisplayName() : "" %>">
+                  <label for="displayName">Nome de exibição</label>
+                  <input class="form-control" id="displayName" name="displayName" type="text" value="<%= usuario.isPersisted() ? usuario.getUserRecord().getDisplayName() : "" %>">
                 </div>
                 
                 
                 <div class="form-group">
-                  <label for="tipo">Email</label>
+                  <label for="email">Email</label>
                   <input class="form-control" id="email" name="email" type="text" value="<%= usuario.isPersisted() ? usuario.getUserRecord().getEmail() : ""%>">
                 </div>
                 
 		        <div class="form-group">
-		          <label for="descricao">Tipo</label>
-                  <input class="form-control" id="tipo" name="tipo" type="text" value="<%= usuario.isPersisted() ? usuario.getUserRecord().getCustomClaims().get("admin") : "" %>">
+		          <label for="tipo">Tipo</label>
+		          <select id="tipo" name="tipo">
+   	        	      <option value="admin" <%= usuario.isPersisted() && usuario.getUserRecord().getCustomClaims().get("admin").equals(true) ? "selected" : "" %>>Administrador</option> 
+					  <option value="user" <%= !usuario.isPersisted() || usuario.getUserRecord().getCustomClaims().get("admin").equals(false) ? "selected" : "" %>>Usuário</option>
+				  </select>
 		        </div>
+		        
+		        <%if(!usuario.isPersisted()){ %>
+		        <div class="form-group">
+                  <label for="password">Senha</label>
+                  <input class="form-control" id="password" name="password" type="password">
+                </div>
+		        <%} %>
+                
               </form>
               
-        	  
         	  <div style="margin-top: 20px;">
     	          <button class="btn btn-outline-primary" type="submit" formaction="usuarios?cmd=doSalvar" form="formUsuario">Salvar</button>
 	        	  <button class="btn btn-outline-danger" type="submit" form="formUsuario">Sair</button>
@@ -118,9 +128,6 @@
   
    <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
-  
-  <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
-  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-analytics.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
   
   <!-- Métodos firebase -->

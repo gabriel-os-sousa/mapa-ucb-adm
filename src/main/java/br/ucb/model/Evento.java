@@ -16,12 +16,12 @@ public class Evento implements Serializable {
 	private Local localEntidade;
 	private String nome;
 	private String tipo;
+	private Integer zIndex;
 
 	public Evento() {
 	}
 
-	public Evento(String id, Long data_fim, Long data_inicio, Long dataCadastro, String descricao, String local,
-			String nome, String tipo) {
+	public Evento(String id, Long data_fim, Long data_inicio, Long dataCadastro, String descricao, String local, String nome, String tipo, Integer zIndex) {
 		this.id = id;
 		this.data_fim = data_fim;
 		this.data_inicio = data_inicio;
@@ -30,6 +30,7 @@ public class Evento implements Serializable {
 		this.local = local;
 		this.nome = nome;
 		this.tipo = tipo;
+		this.zIndex = zIndex;
 	}
 
 	public String getId() {
@@ -94,6 +95,14 @@ public class Evento implements Serializable {
 
 	public void setDataCadastro(Long dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public Integer getzIndex() {
+		return zIndex;
+	}
+
+	public void setzIndex(Integer zIndex) {
+		this.zIndex = zIndex;
 	}
 
 	@Exclude

@@ -1,3 +1,4 @@
+<%@page import="br.ucb.util.Strings"%>
 <%@page import="br.ucb.model.Evento"%>
 <%@page import="br.ucb.model.Local"%>
 <%@page import="java.util.List"%>
@@ -45,7 +46,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Cadastro de Local</h1>
+          <h1 class="h3 mb-4 text-gray-800">Cadastro de Evento</h1>
           <% Evento evento = (Evento) request.getAttribute("attrEvento"); %>
           
           <!-- Basic Card Example -->
@@ -72,6 +73,21 @@
                 <div class="form-group">
                   <label for="descricao">Descrição</label>
                   <input class="form-control" id="descricao" name="descricao" type="text" value="<%= evento.getDescricao() %>">
+                </div>
+                
+                <div class="form-group">
+                  <label for="zIndex">zIndex</label>
+                  <input class="form-control" id="zIndex" name="zIndex" type="number" min="0" max="1000" value="<%= evento.getzIndex() == null ? "0" : evento.getzIndex() %>">
+                </div>
+                
+                <div class="form-group">
+                  <label for="data_inicio">Data Inicio</label>
+                  <input type="date" id="data_inicio" name="data_inicio" value="<%= evento.getData_inicio() != null ? Strings.millisToString(evento.getData_inicio()) : "" %>">
+                </div>
+                
+                <div class="form-group">
+                  <label for="data_fim">Data Fim</label>
+                  <input type="date" id="data_fim" name="data_fim" value="<%= evento.getData_fim() != null ? Strings.millisToString(evento.getData_fim()) : "" %>">
                 </div>
                 
                 <div class="form-group">
@@ -110,6 +126,11 @@
   </div>
   <!-- End of Page Wrapper -->
   
+  <!-- Form logout -->
+	<form style="display: none" action="login" method="POST" id="formLogout">
+	  <input type="hidden" id="cmd" name="cmd" value=""/>
+	</form>
+  
   <%@ include file="templates/components.jsp" %>
 
   <!-- Bootstrap core JavaScript-->
@@ -121,6 +142,13 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+  
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
+  
+  <!-- Métodos firebase -->
+  <script src="js/firebase-metodos.js"></script>
   
 
 </body>

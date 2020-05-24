@@ -91,6 +91,9 @@
                       <th>Nome</th>
                       <th>Tipo</th>
                       <th>Descrição</th>
+                      <th>zIndex</th>
+                      <th>Andar</th>
+                      <th>ID</th>
                       <th>Data Cadastro</th>
                       <th>Ações</th>
                     </tr>
@@ -100,6 +103,9 @@
                       <th>Nome</th>
                       <th>Tipo</th>
                       <th>Descrição</th>
+                      <th>zIndex</th>
+                      <th>Andar</th>
+                      <th>ID</th>
                       <th>Data Cadastro</th>
                       <th>Ações</th>
                     </tr>
@@ -113,6 +119,9 @@
                       <td><%= local.getNome() %></td>
                       <td><%= local.getTipo() %></td>
                       <td><%= local.getDescricao() %></td>
+                      <td><%= local.getzIndex() == null ? "0" : local.getzIndex()  %></td>
+                      <td><%= local.getAndar() == null ? "0" : local.getAndar() %></td>
+                      <td><%= local.getId() %></td>
                       <td><%= Strings.dateHourToString(local.getDataCadastro()) %></td>
                       <td>
                           <a href="locais?cmd=atualizar&id=<%=local.getId()%>" class="btn btn-success btn-circle btn-sm" title="Atualizar">
@@ -165,9 +174,7 @@
   
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
-   <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
-  
   
   <!-- Métodos firebase -->
   <script src="js/firebase-metodos.js"></script>

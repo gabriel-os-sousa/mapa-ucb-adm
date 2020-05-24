@@ -73,6 +73,8 @@ public class LocalDAO extends AbstractDAO<Local> {
 		localPersistido.setDescricao(local.getDescricao());
 		localPersistido.setLatitude(local.getLatitude());
 		localPersistido.setLongitude(local.getLongitude());
+		localPersistido.setzIndex(local.getzIndex());
+		localPersistido.setAndar(local.getAndar());
 		
 		DatabaseReference dr =  ConfiguracaoFirebase.getFirebaseDatabase().getReference("locais").child(local.getId());
 		dr.setValueAsync(localPersistido);

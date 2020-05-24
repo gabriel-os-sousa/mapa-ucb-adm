@@ -32,7 +32,6 @@ public class LoginController extends HttpServlet {
 	
 		try {
 			RequestDispatcher rd = null;
-
 			// Loggin 
 			if (cmd.equalsIgnoreCase("doLogin")) {
 				String idToken = request.getParameter("idToken");
@@ -61,8 +60,6 @@ public class LoginController extends HttpServlet {
 			} else if (cmd.equalsIgnoreCase("doLogout")) {
 				//remove o usuario logado da sesão para cair no webfilter e redirecionar para a página de login
 				System.out.println("LOGOUT");
-				String idToken = request.getParameter("idToken");
-				System.out.println("idToken: "+idToken);
 				
 				HttpSession session = request.getSession(false);
 				session.removeAttribute("attrUsuarioLogado");
@@ -80,14 +77,16 @@ public class LoginController extends HttpServlet {
 					rd = request.getRequestDispatcher("login.jsp");
 					System.out.println("login user null");
 				}
-			} 				
+			} else if (cmd.equalsIgnoreCase("resetPassword")) {
+				// abre form reset senha
+				rd = request.getRequestDispatcher("resetPassword.jsp");
+			}
 			
 			rd.forward(request, response);
 
 		} catch (Exception erro) {
 			erro.printStackTrace();
 		}
-		
 	}
 		
 	@Override

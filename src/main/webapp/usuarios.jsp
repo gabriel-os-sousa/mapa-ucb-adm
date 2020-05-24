@@ -69,12 +69,11 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Usuarios Administrativos
+          <h1 class="h3 mb-4 text-gray-800">Usuarios
 	          <a href="usuarios?cmd=inserir" class="btn btn-success btn-circle btn-sm" title="Adicionar">
 	            <i class="fas fa-plus"></i>
 	          </a>
           </h1>
-          
           
           <p class="mb-4">Listagem de Usuarios Administrativos do Mapa UCB</p>
           
@@ -89,7 +88,7 @@
                   <thead>
                     <tr>
                       <th>Nome de Exibição</th>
-                      <th>email</th>
+                      <th>Email</th>
                       <th>Tipo</th>
                       <th>ID</th>
                       <th>Ações</th>
@@ -98,7 +97,7 @@
                   <tfoot>
                     <tr>
                       <th>Nome de Exibição</th>
-                      <th>email</th>
+                      <th>Email</th>
                       <th>Tipo</th>
                       <th>ID</th>
                       <th>Ações</th>
@@ -113,10 +112,10 @@
                     <tr>
                       <td><%= usuario.getUserRecord().getDisplayName() %></td>
                       <td><%= usuario.getUserRecord().getEmail() %></td>
-                      <td><%  if(usuario.getUserRecord().getCustomClaims().get("admin") != null){
-                    		    out.print("Administrador Master");  
+                      <td><%  if(usuario.getUserRecord().getCustomClaims().get("admin").equals(true)){
+                    		    out.print("Administrador");  
 		                      } else {
-		                    	out.print("Administrador");
+		                    	out.print("Usuário");
 		                      }
                     	  %>
                       </td>
@@ -128,6 +127,10 @@
                           <a href="usuarios?cmd=excluir&id=<%= usuario.getUserRecord().getUid()%>" class="btn btn-danger btn-circle btn-sm" title="Excluir">
                             <i class="fas fa-trash"></i>
                           </a>
+                          
+                          <button id="resetPassword" data-email="<%= usuario.getUserRecord().getEmail()%>" class="btn btn-primary btn-circle btn-sm" onclick="enviarEmailResetSenha('<%= usuario.getUserRecord().getEmail()%>')" title="Enviar email reset senha">
+                         	 <i class="fas fa-key"></i>
+                          </button
                       </td>
                     </tr>
                     <%
@@ -172,9 +175,7 @@
   
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
-   <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
-  
   
   <!-- Métodos firebase -->
   <script src="js/firebase-metodos.js"></script>

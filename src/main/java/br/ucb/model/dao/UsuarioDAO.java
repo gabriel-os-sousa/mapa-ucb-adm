@@ -106,17 +106,25 @@ public class UsuarioDAO {
 		}
 		System.out.println("Successfully updated user: " + usuarioRecuperado.getUid());
 		
-		//TODO: Fazer tratamento do tipo
-		//Criar os claims, se for admin seta o claim admin como 'true', senão 'false'
+		atualizarTipoUsuario(usuario, usuarioRecuperado);
+		
+	}
+	
+	//Criar os claims, se for admin seta o claim admin como 'true', senão 'false'
+	private void atualizarTipoUsuario(Usuario usuario, UserRecord usuarioRecuperado) {
 		Map<String, Object> claims = new HashMap<>();
-		claims.put("admin", true);
+		if(usuario.getTipo().equalsIgnoreCase("admin"))
+			claims.put("admin", true);
+		else
+			claims.put("admin", false);
+		
 		try {
 			auth.setCustomUserClaims(usuarioRecuperado.getUid(), claims);
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void inserir (Usuario usuario) {
 		CreateRequest createRequest = new CreateRequest()
 			    .setEmail(usuario.getEmail())
@@ -134,14 +142,6 @@ public class UsuarioDAO {
 		}
 		System.out.println("Successfully created new user: " + usuarioRecuperado.getUid());
 		
-		//TODO: Fazer tratamento do tipo
-		//Criar os claims, se for admin seta o claim admin como 'true', senão 'false'
-		Map<String, Object> claims = new HashMap<>();
-		claims.put("admin", true);
-		try {
-			auth.setCustomUserClaims(usuarioRecuperado.getUid(), claims);
-		} catch (FirebaseAuthException e) {
-			e.printStackTrace();
-		}
+		atualizarTipoUsuario(usuario, usuarioRecuperado);
 	}
 }

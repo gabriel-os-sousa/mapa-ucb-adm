@@ -56,7 +56,6 @@ public class UsuariosController extends HttpServlet {
 				usuario = new Usuario();
 				String id = request.getParameter("id");
 				
-				//UserRecord user = auth.getUser(id);
 				usuario.setUserRecord(UsuarioDAO.getInstance().recuperarUsuario(id));
 				request.setAttribute("attrUsuario", usuario);
 				
@@ -64,24 +63,13 @@ public class UsuariosController extends HttpServlet {
 				
 				// Realiza a persistencia do usuario
 			} else if (cmd.equalsIgnoreCase("doSalvar")) {
-				String id = request.getParameter("id");
-				System.out.println("doSalvar: "+id);
+				usuario = getFromRequest(request);
 				
-				//recuperar parametros
-				String email = request.getParameter("email");
-				String displayName = request.getParameter("displayName");
-				
-				usuario = new Usuario();
-				usuario.setEmail(email);
-				usuario.setNome(displayName);
-				
-				if (Strings.isNotEmpty(id) || Strings.isNotNull(id)) 
-					usuario.setId(id);
-				
+				System.out.println("doSalvar: "+usuario.getId());
 				UsuarioDAO.getInstance().salvar(usuario);
 				
 				rd = request.getRequestDispatcher("usuarios?cmd=listar");
-			}
+			} 
 			
 			rd.forward(request, response);
 
@@ -89,6 +77,21 @@ public class UsuariosController extends HttpServlet {
 			erro.printStackTrace();
 		}
 		
+	}
+	
+	private Usuario getFromRequest(HttpServletRequest request) {
+		Usuario usuario = new Usuario();
+		usuario.setEmail(request.getParameter("email"));
+		usuario.setNome(request.getParameter("displayName"));
+		usuario.setTipo(request.getParameter("tipo"));
+		
+		String id = request.getParameter("id");
+		
+		if (Strings.isNotEmpty(id) || Strings.isNotNull(id)) 
+			usuario.setId(id);
+		
+		
+		return usuario;
 	}
 	
 	@Override

@@ -55,6 +55,11 @@
   </div>
   <!-- End of Page Wrapper -->
   
+  <!-- Form logout -->
+	<form style="display: none" action="login" method="POST" id="formLogout">
+	  <input type="hidden" id="cmd" name="cmd" value=""/>
+	</form>
+  
   <%@ include file="templates/components.jsp" %>
 
   <!-- Bootstrap core JavaScript-->
@@ -69,7 +74,6 @@
   
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
-   <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
   
   <!-- Métodos firebase -->

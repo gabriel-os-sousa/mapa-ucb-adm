@@ -16,7 +16,8 @@ public class Local implements Serializable {
 	private String descricao;
 	private double latitude;
 	private double longitude;
-	private int zIndex;
+	private Integer zIndex;
+	private Integer andar;
 	private Long dataCadastro;
 	private List<Local> localVizinho;
 
@@ -27,7 +28,7 @@ public class Local implements Serializable {
 		this.id = id;
 	}
 
-	public Local(String id, String nome, String tipo, String descricao, double latitude, double longitude) {
+	public Local(String id, String nome, String tipo, String descricao, double latitude, double longitude, Integer zIndex, Integer andar) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -35,7 +36,11 @@ public class Local implements Serializable {
 		this.descricao = descricao;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.zIndex = zIndex;
+		this.andar = andar;
 	}
+	
+	
 
 	@Override
 	public String toString() {
@@ -88,12 +93,20 @@ public class Local implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public int getzIndex() {
+	public Integer getzIndex() {
 		return zIndex;
 	}
 
-	public void setzIndex(int zIndex) {
+	public void setzIndex(Integer zIndex) {
 		this.zIndex = zIndex;
+	}
+
+	public Integer getAndar() {
+		return andar;
+	}
+
+	public void setAndar(Integer andar) {
+		this.andar = andar;
 	}
 
 	public double getLatitude() {

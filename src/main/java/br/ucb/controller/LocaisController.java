@@ -20,7 +20,6 @@ public class LocaisController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-
 		response.setContentType("text/html;charset=UTF-8");
 
 		String cmd = request.getParameter("cmd");
@@ -37,23 +36,11 @@ public class LocaisController extends HttpServlet {
 				List<Local> locais = LocalDAO.getInstance().obterLocais();
 				request.setAttribute("attrLocais", locais);
 				
-//				String mensagem = request.getParameter("msg");
-//				if (mensagem == null) {
-//					mensagem = "Listagem completa";
-//					request.setAttribute("mensagem", mensagem);
-//				} else if (mensagem.equalsIgnoreCase("doSalvar")){
-//					mensagem = "Local salvo com sucesso!";
-//					request.setAttribute("mensagem", mensagem);
-//				} else if (mensagem.equalsIgnoreCase("excluir")){
-//					mensagem = "Local excluído com sucesso!";
-//					request.setAttribute("mensagem", mensagem);
-//				}
-				
 				rd = request.getRequestDispatcher("locais.jsp");
 
 				// Prepara o formulário e o local
 			} else if (cmd.equalsIgnoreCase("inserir")) {
-				local = new Local("", "", "", "", 0, 0);
+				local = new Local("", "", "", "", 0, 0, 0, 0);
 				local.setId(LocalDAO.getInstance().getIdFirebase());
 				request.setAttribute("attrLocal", local);
 				rd = request.getRequestDispatcher("localForm.jsp");
@@ -62,7 +49,6 @@ public class LocaisController extends HttpServlet {
 			} else if (cmd.equalsIgnoreCase("excluir")) {
 				local.setId(request.getParameter("id"));
 				LocalDAO.getInstance().excluir(local);
-				request.setAttribute("msg", cmd);
 				rd = request.getRequestDispatcher("locais?cmd=listar");
 
 				// Prepara o formulário e o local
@@ -76,7 +62,6 @@ public class LocaisController extends HttpServlet {
 			} else if (cmd.equalsIgnoreCase("doSalvar")) {
 				local = getFromRequest(request);
 				LocalDAO.getInstance().salvar(local);
-				request.setAttribute("msg", cmd);
 				rd = request.getRequestDispatcher("locais?cmd=listar");
 			}
 			
@@ -94,6 +79,14 @@ public class LocaisController extends HttpServlet {
 		local.setTipo(request.getParameter("tipo"));
 		local.setNome(request.getParameter("nome"));
 		local.setDescricao(request.getParameter("descricao"));
+		
+		if (Strings.isNotNull(request.getParameter("zIndex"))) {
+			local.setzIndex(Integer.parseInt(request.getParameter("zIndex")));
+		}
+		
+		if (Strings.isNotNull(request.getParameter("andar"))) {
+			local.setAndar(Integer.parseInt(request.getParameter("andar")));
+		}
 		
 		if (Strings.isNotNull(request.getParameter("dataCadastro"))) {
 			local.setDataCadastro(Long.parseLong(request.getParameter("dataCadastro")));

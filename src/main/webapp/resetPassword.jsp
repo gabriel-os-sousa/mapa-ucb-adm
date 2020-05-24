@@ -41,12 +41,14 @@
                   </div>
                   <form class="user" action="login" method="post">
                     <div class="form-group">
-                      <input type="email" name="email" class="form-control form-control-user" id="emailReset" aria-describedby="emailHelp" placeholder="Usuário">
+                      <input type="email" name="email" class="form-control form-control-user" id="emailReset" aria-describedby="emailHelp" placeholder="Email">
                     </div>
-                    <button class="btn btn-primary btn-user btn-block" type="submit" formaction="login?cmd=doResetPassword">Enviar</button>
-                    <!-- <a href="login?cmd=doResetPassword" type="submit" class="btn btn-primary btn-user btn-block">Enviar email</a> -->
                     <hr>
                   </form>
+                  <button class="btn btn-primary btn-user btn-block" onclick="enviarEmailResetSenhaValue()">Enviar</button>
+                  <div class="text-center">
+                  	<a href="login?cmd=login" class="small">Voltar</a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -68,6 +70,13 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+  
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
+  
+  <!-- Métodos firebase -->
+  <script src="js/firebase-metodos.js"></script>
 
 </body>
 

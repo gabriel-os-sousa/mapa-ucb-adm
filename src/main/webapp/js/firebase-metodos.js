@@ -18,7 +18,7 @@
 	  if (user) {
 	    //online
 	    console.log(user);
-	    console.log( "Usuario logado: " + user.displayName +" Is annony: "+ user.isAnonymous);
+	    console.log( "Usuario logado no firebase(Não necessáriamente está na sessão): " + user.displayName +"  - É usuário anônimo? "+ user.isAnonymous);
 	  } else {
 	    //offline
 	    console.log(user);
@@ -31,9 +31,7 @@
 		//Seta os values do form hidden
 	   	document.getElementById("cmd").value = "doLogout";
 	   	document.getElementById("formLogout").submit();
-	   	alert("logout");
 		//sucess
-	    console.log('Logout');
 	  }, function(error) {
 		//error
 	    console.error( error );
@@ -88,4 +86,37 @@
 			  console.log("Erro login!");
 		  });
 	  /*}*/
+  }
+  
+  function enviarEmailResetSenha(email) {
+	  firebase.auth().sendPasswordResetEmail(email).then(function() {
+	    alert("Email com redefinição de senha enviado com sucesso para: "+ email);
+	  }).catch(function(error) {
+	    alert(error);
+	  });
+  }
+  
+  function enviarEmailResetSenhaValue() {
+	  var email = document.getElementById("emailReset").value;
+	  // Tratamento de erro dos campos
+      if (email.length < 1) {
+        alert('Por favor, insira o email!');
+        return;
+      }
+
+	  firebase.auth().sendPasswordResetEmail(email).then(function() {
+	    alert("Email com redefinição de senha enviado com sucesso para: "+ email);
+	  }).catch(function(error) {
+		// Tratamento de erros
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          
+		  if(errorCode === 'auth/user-not-found') {
+        	  alert("Usuário não encontrado na base de dados!");
+          } else if(errorCode === 'auth/invalid-email') {
+        	  alert("Formato de email inválido!");
+          } else {
+        	  alert("Código do erro: "+ errorCode +" -->"+ errorMessage);
+          }
+	  });
   }

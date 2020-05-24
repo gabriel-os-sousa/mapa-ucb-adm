@@ -22,7 +22,6 @@ public class EventosController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-
 		response.setContentType("text/html;charset=UTF-8");
 
 		String cmd = request.getParameter("cmd");
@@ -58,7 +57,7 @@ public class EventosController extends HttpServlet {
 
 				// Prepara o formulário e o evento
 			} else if (cmd.equalsIgnoreCase("inserir")) {
-				evento = new Evento(dao.getIdFirebase(), null, null, null, "", "", "", "");
+				evento = new Evento(dao.getIdFirebase(), null, null, null, "", "", "", "", null);
 				request.setAttribute("attrEvento", evento);
 				rd = request.getRequestDispatcher("eventoForm.jsp");
 
@@ -94,6 +93,20 @@ public class EventosController extends HttpServlet {
 		evento.setTipo(request.getParameter("tipo"));
 		evento.setNome(request.getParameter("nome"));
 		evento.setDescricao(request.getParameter("descricao"));
+		
+		if (Strings.isNotNull(request.getParameter("zIndex"))) {
+			evento.setzIndex(Integer.parseInt(request.getParameter("zIndex")));
+		}
+		
+		if (Strings.isNotNull(request.getParameter("data_inicio"))) {
+			//fazer o tratamento da data
+	        evento.setData_inicio(Strings.stringToMillis(request.getParameter("data_inicio"), "00:00"));
+		}
+		
+		if (Strings.isNotNull(request.getParameter("data_fim"))) {
+			//fazer o tratamento da data
+	        evento.setData_fim(Strings.stringToMillis(request.getParameter("data_fim"), "23:59"));
+		}
 		
 		if (!"-1".equals(request.getParameter("local"))) {
 			evento.setLocal(request.getParameter("local"));

@@ -41,12 +41,15 @@ public class EventoDAO extends AbstractDAO<Evento> {
 	private void atualizar(Evento evento) {
 		Evento eventoPersistido = obterEvento(evento.getId());
 		if (eventoPersistido == null) {
-			throw new IllegalStateException("Não foi localizado o Local com nome " + evento.getNome());
+			throw new IllegalStateException("Não foi localizado o Evento com nome " + evento.getNome());
 		}
 		eventoPersistido.setNome(evento.getNome());
 		eventoPersistido.setTipo(evento.getTipo());
 		eventoPersistido.setDescricao(evento.getDescricao());
 		eventoPersistido.setLocal(evento.getLocal());
+		eventoPersistido.setzIndex(evento.getzIndex());
+		eventoPersistido.setData_inicio(evento.getData_inicio());
+		eventoPersistido.setData_fim(evento.getData_fim());
 		
 		DatabaseReference dr =  ConfiguracaoFirebase.getFirebaseDatabase().getReference("eventos").child(evento.getId());
 		dr.setValueAsync(eventoPersistido);
@@ -55,7 +58,7 @@ public class EventoDAO extends AbstractDAO<Evento> {
 	public void excluir(Evento evento) {
 		Evento eventoPersistido = obterEvento(evento.getId());
 		if (eventoPersistido == null) {
-			throw new IllegalStateException("O Local não foi encontrado na base de dados.");
+			throw new IllegalStateException("O Evento não foi encontrado na base de dados.");
 		}
 		
 		try {
