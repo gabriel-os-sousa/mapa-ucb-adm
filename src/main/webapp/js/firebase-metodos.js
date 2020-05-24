@@ -1,5 +1,5 @@
 
-  //ConfiguraÃ§Ã£o do App Firebase
+  //Configuração do App Firebase
   var firebaseConfig = {
     apiKey: "AIzaSyB9HfiV3qwuQS9CJ-i7PS_CwJgtY6t25V8",
     authDomain: "mapa-ucb.firebaseapp.com",
@@ -18,7 +18,7 @@
 	  if (user) {
 	    //online
 	    console.log(user);
-	    console.log( "Usuario logado no firebase(NÃ£o necessÃ¡riamente estÃ¡ na sessÃ£o): " + user.displayName +"  - Ã‰ usuÃ¡rio anÃ´nimo? "+ user.isAnonymous);
+	    console.log( "Usuario logado no firebase(Não necessáriamente está na sessão): " + user.displayName +"  - É usuário anônimo? "+ user.isAnonymous);
 	  } else {
 	    //offline
 	    console.log(user);
@@ -77,11 +77,11 @@
 	          if (errorCode === 'auth/wrong-password') {
 	            alert('Senha incorreta. Por favor, tente novamente!');
 	          } else if(errorCode === 'auth/user-not-found') {
-	        	  alert("UsuÃ¡rio nÃ£o encontrado na base de dados!");
+	        	  alert("Usuário não encontrado na base de dados!");
 	          } else if(errorCode === 'auth/invalid-email') {
-	        	  alert("Formato de email invÃ¡lido!");
+	        	  alert("Formato de email inválido!");
 	          } else {
-	        	  alert("CÃ³digo do erro: "+ errorCode +" -->"+ errorMessage);
+	        	  alert("Código do erro: "+ errorCode +" -->"+ errorMessage);
 	          }
 			  console.log("Erro login!");
 		  });
@@ -90,7 +90,7 @@
   
   function enviarEmailResetSenha(email) {
 	  firebase.auth().sendPasswordResetEmail(email).then(function() {
-	    alert("Email com redefiniÃ§Ã£o de senha enviado com sucesso para: "+ email);
+	    alert("Email com redefinição de senha enviado com sucesso para: "+ email);
 	  }).catch(function(error) {
 	    alert(error);
 	  });
@@ -105,18 +105,18 @@
       }
 
 	  firebase.auth().sendPasswordResetEmail(email).then(function() {
-	    alert("Email com redefiniÃ§Ã£o de senha enviado com sucesso para: "+ email);
+	    alert("Email com redefinição de senha enviado com sucesso para: "+ email);
 	  }).catch(function(error) {
 		// Tratamento de erros
           var errorCode = error.code;
           var errorMessage = error.message;
           
 		  if(errorCode === 'auth/user-not-found') {
-        	  alert("UsuÃ¡rio nÃ£o encontrado na base de dados!");
+        	  alert("Usuário não encontrado na base de dados!");
           } else if(errorCode === 'auth/invalid-email') {
-        	  alert("Formato de email invÃ¡lido!");
+        	  alert("Formato de email inválido!");
           } else {
-        	  alert("CÃ³digo do erro: "+ errorCode +" -->"+ errorMessage);
+        	  alert("Código do erro: "+ errorCode +" -->"+ errorMessage);
           }
 	  });
   }

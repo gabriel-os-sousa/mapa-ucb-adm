@@ -11,6 +11,8 @@ import com.google.firebase.database.Query;
 
 import br.ucb.model.Local;
 import br.ucb.util.ConfiguracaoFirebase;
+import br.ucb.util.Strings;
+import br.ucb.util.ValidacaoException;
 
 public class LocalDAO extends AbstractDAO<Local> {
 	
@@ -25,6 +27,27 @@ public class LocalDAO extends AbstractDAO<Local> {
 			instance = new LocalDAO();
 		}
 		return instance;
+	}
+	
+	private void validar(Local local) {
+		
+		ValidacaoException exception = new ValidacaoException();
+		
+		if (Strings.isNull(local.getNome())) {
+			exception.getErros().add("O Nome do local é obrigatório");
+		}
+		
+		if (Strings.isNull(local.getDescricao())) {
+			exception.getErros().add("A Descrição do local é obrigatória");
+		}
+		
+		if (Strings.isNull(local.getTipo())) {
+			exception.getErros().add("O Tipo do local é obrigatório");
+		}
+		
+		if (!exception.getErros().isEmpty()) {
+			throw exception;
+		}
 	}
 	
 	
@@ -46,6 +69,9 @@ public class LocalDAO extends AbstractDAO<Local> {
 	}
 
 	public void salvar(Local local) {
+		
+		validar(local);
+		
 		if (local.isPersistido()) {
 			atualizar(local);
 		}

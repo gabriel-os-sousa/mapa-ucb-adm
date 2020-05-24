@@ -1,3 +1,5 @@
+<%@page import="br.ucb.util.MensagemUtil.Mensagem"%>
+<%@page import="br.ucb.util.MensagemUtil"%>
 <%@page import="br.ucb.util.Strings"%>
 <%@page import="br.ucb.model.Local"%>
 <%@page import="java.util.List"%>
@@ -39,32 +41,6 @@
       <div id="content">
 
         <%@ include file="templates/topbar.jsp" %>
-
-        <!-- Toast container -->
-        <% if(request.getAttribute("mensagem") != null) { %>
-		<div style="position: absolute; right: 1rem;">
-		    <!-- Toast -->
-		    <div class="toast" id="toastBasic" role="alert" aria-live="assertive" aria-atomic="true" data-delay="6000">
-		        <div class="toast-header" style="background-color: #1cc88a;">
-		            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-		                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell mr-2">
-		            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-		            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-		            <strong class="mr-auto">Mensagem! </strong>
-		            <button class="ml-2 mb-1 close" type="button" data-dismiss="toast" aria-label="Close">
-		            	<span aria-hidden="true">×</span>
-		            </button>
-		        </div>
-		        <% String mensagem = (String) request.getAttribute("mensagem"); %>
-		        <div class="toast-body"><% out.print(mensagem); %></div>
-		    </div>
-		</div>
-		<script>
-		    window.onload = function() {
-		 	  $("#toastBasic").toast("show");
-		 	}
-		</script>
-		<% } %>
 
         <!-- Begin Page Content -->
         <div class="container-fluid">

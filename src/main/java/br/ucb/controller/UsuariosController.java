@@ -21,14 +21,14 @@ public class UsuariosController extends HttpServlet {
 
 	private void process(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/html;charset=UTF-8");
-		
+
 		String cmd = request.getParameter("cmd");
 		if (cmd == null) {
 			cmd = "listar";
 		}
 
 		Usuario usuario = new Usuario();
-		
+
 		try {
 			RequestDispatcher rd = null;
 
@@ -40,7 +40,7 @@ public class UsuariosController extends HttpServlet {
 
 				// Prepara o formulário e o usuario
 			} else if (cmd.equalsIgnoreCase("inserir")) {
-				//Inserir um cara vazio e retornar
+				// Inserir um cara vazio e retornar
 				usuario = new Usuario();
 				request.setAttribute("attrUsuario", usuario);
 				rd = request.getRequestDispatcher("usuarioForm.jsp");
@@ -55,50 +55,50 @@ public class UsuariosController extends HttpServlet {
 			} else if (cmd.equalsIgnoreCase("atualizar")) {
 				usuario = new Usuario();
 				String id = request.getParameter("id");
-				
+
 				usuario.setUserRecord(UsuarioDAO.getInstance().recuperarUsuario(id));
 				request.setAttribute("attrUsuario", usuario);
-				
+
 				rd = request.getRequestDispatcher("usuarioForm.jsp");
-				
+
 				// Realiza a persistencia do usuario
 			} else if (cmd.equalsIgnoreCase("doSalvar")) {
 				usuario = getFromRequest(request);
-				
-				System.out.println("doSalvar: "+usuario.getId());
+
+				System.out.println("doSalvar: " + usuario.getId());
 				UsuarioDAO.getInstance().salvar(usuario);
-				
+
 				rd = request.getRequestDispatcher("usuarios?cmd=listar");
-			} 
-			
+			}
+
 			rd.forward(request, response);
 
 		} catch (Exception erro) {
 			erro.printStackTrace();
 		}
-		
+
 	}
-	
+
 	private Usuario getFromRequest(HttpServletRequest request) {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(request.getParameter("email"));
 		usuario.setNome(request.getParameter("displayName"));
 		usuario.setTipo(request.getParameter("tipo"));
-		
+
 		String id = request.getParameter("id");
-		
-		if (Strings.isNotEmpty(id) || Strings.isNotNull(id)) 
+
+		if (Strings.isNotNull(id)) {
 			usuario.setId(id);
-		
-		
+		}
+
 		return usuario;
 	}
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		process(req, resp);
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		process(req, resp);

@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.ucb.model.Local;
 import br.ucb.model.dao.LocalDAO;
+import br.ucb.util.MensagemUtil;
+import br.ucb.util.MensagemUtil.Tipo;
 import br.ucb.util.Strings;
+import br.ucb.util.ValidacaoException;
 
 @WebServlet("/locais")
 public class LocaisController extends HttpServlet {
@@ -33,9 +36,9 @@ public class LocaisController extends HttpServlet {
 
 			// listar todos os locais
 			if (cmd.equalsIgnoreCase("listar")) {
+				
 				List<Local> locais = LocalDAO.getInstance().obterLocais();
 				request.setAttribute("attrLocais", locais);
-				
 				rd = request.getRequestDispatcher("locais.jsp");
 
 				// Prepara o formulário e o local
@@ -49,7 +52,9 @@ public class LocaisController extends HttpServlet {
 			} else if (cmd.equalsIgnoreCase("excluir")) {
 				local.setId(request.getParameter("id"));
 				LocalDAO.getInstance().excluir(local);
-				rd = request.getRequestDispatcher("locais?cmd=listar");
+				addMensagem(request, Tipo.AVISO, "Local excluído da base de dados.");
+				response.sendRedirect("locais");
+				return;
 
 				// Prepara o formulário e o local
 			} else if (cmd.equalsIgnoreCase("atualizar")) {
@@ -60,48 +65,78 @@ public class LocaisController extends HttpServlet {
 
 				// Realiza a persistencia do local
 			} else if (cmd.equalsIgnoreCase("doSalvar")) {
-				local = getFromRequest(request);
-				LocalDAO.getInstance().salvar(local);
-				rd = request.getRequestDispatcher("locais?cmd=listar");
+				
+				try {
+					local = getFromRequest(request);
+					LocalDAO.getInstance().salvar(local);
+					addMensagem(request, Tipo.SUCESSO, "Operação realizada com sucesso.");
+					response.sendRedirect("locais");
+					return;
+					
+				} catch (ValidacaoException e) {
+					for (String erro : e.getErros()) {
+						addMensagem(request, Tipo.ERRO, erro);
+					}
+					request.setAttribute("attrLocal", local);
+					rd = request.getRequestDispatcher("localForm.jsp");
+				}
 			}
-			
+
 			rd.forward(request, response);
 
 		} catch (Exception erro) {
 			erro.printStackTrace();
+			try {
+				addMensagem(request, Tipo.ERRO, erro.getMessage());
+				response.sendRedirect("erro.jsp");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private Local getFromRequest(HttpServletRequest request) {
 		Local local = new Local();
-		
+
 		local.setId(request.getParameter("id"));
 		local.setTipo(request.getParameter("tipo"));
 		local.setNome(request.getParameter("nome"));
 		local.setDescricao(request.getParameter("descricao"));
-		
+
 		if (Strings.isNotNull(request.getParameter("zIndex"))) {
 			local.setzIndex(Integer.parseInt(request.getParameter("zIndex")));
 		}
-		
+
 		if (Strings.isNotNull(request.getParameter("andar"))) {
 			local.setAndar(Integer.parseInt(request.getParameter("andar")));
 		}
-		
+
 		if (Strings.isNotNull(request.getParameter("dataCadastro"))) {
 			local.setDataCadastro(Long.parseLong(request.getParameter("dataCadastro")));
 		}
-		
+
 		if (Strings.isNotNull(request.getParameter("latitude"))) {
 			local.setLatitude(Double.parseDouble(request.getParameter("latitude")));
 		}
-		
+
 		if (Strings.isNotNull(request.getParameter("longitude"))) {
 			local.setLongitude(Double.parseDouble(request.getParameter("longitude")));
 		}
-		
+
 		return local;
 	}
+
+	private void addMensagem(HttpServletRequest request, Tipo tipo, String mensagem) {
+		
+		if (request.getSession().getAttribute("attrMensagensSession") == null) {
+			MensagemUtil mu = new MensagemUtil();
+			request.getSession().setAttribute("attrMensagensSession", mu);
+		}
+		
+		MensagemUtil mensagens = (MensagemUtil) request.getSession().getAttribute("attrMensagensSession");
+		mensagens.addMensagem(tipo, mensagem);
+	}
+	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

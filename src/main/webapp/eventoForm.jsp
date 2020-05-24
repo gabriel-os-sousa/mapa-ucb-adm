@@ -106,7 +106,7 @@
               
         	  <div style="margin-top: 20px;">
     	          <button class="btn btn-outline-primary" type="submit" formaction="eventos?cmd=doSalvar" form="formEvento">Salvar</button>
-	        	  <button class="btn btn-outline-danger" type="submit" form="formEvento">Sair</button>
+	        	  <button class="btn btn-outline-danger" type="button" onclick="location.href='<%=request.getContextPath()%>/eventos'" >Sair</button>
         	  </div>
           
             </div>
