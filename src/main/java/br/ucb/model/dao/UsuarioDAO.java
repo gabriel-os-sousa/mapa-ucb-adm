@@ -67,7 +67,6 @@ public class UsuarioDAO {
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Successfully deleted user.");
 	}
 	
 	public UserRecord recuperarUsuario (String id) {
@@ -129,7 +128,7 @@ public class UsuarioDAO {
 		CreateRequest createRequest = new CreateRequest()
 			    .setEmail(usuario.getEmail())
 			    .setEmailVerified(true)
-			    .setPassword("123456")
+			    .setPassword(usuario.getSenha())
 			    .setDisplayName(usuario.getNome())
 			    .setDisabled(false);
 

@@ -83,6 +83,7 @@ public class UsuariosController extends HttpServlet {
 		usuario.setEmail(request.getParameter("email"));
 		usuario.setNome(request.getParameter("displayName"));
 		usuario.setTipo(request.getParameter("tipo"));
+		usuario.setSenha(request.getParameter("password"));
 
 		String id = request.getParameter("id");
 
