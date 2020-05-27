@@ -72,10 +72,9 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body" style="padding: 0.75rem;">
-                  <p><span><b>Tipo:</b> <%= evento.getTipo() %></span><span> - <b>Local:</b> <%= evento.getTipoNomeLocal() %></span></p>
-                  <p><span><b>Data Inicio:</b> <%= Strings.dateToString(evento.getData_inicio()) %></span><span> - <b>Data Fim:</b> <%= Strings.dateToString(evento.getData_fim()) %></span></p>
+                  <p><span><b>Tipo:</b> <%= evento.getTipo() %></span><span> - <b>Local:</b> <%= evento.getTipoNomeLocal() %></span><span> - <b>Data de cadastro: </b><%= Strings.dateHourToString(evento.getDataCadastro()) %></span></p>
+                  <p><span><b>Início:</b> <%= Strings.dateToString(evento.getData_inicio()) %></span><span> - <b>Fim:</b> <%= Strings.dateToString(evento.getData_fim()) %></span></p>
                   <p><b>Descrição:</b> <%= evento.getDescricao() %></p>
-                  <p><b>Data de cadastro:</b> <%= Strings.dateHourToString(evento.getDataCadastro()) %></p>
                 </div>
               </div>
           

@@ -24,9 +24,21 @@ public class Strings {
 	public static boolean isNotNull(String value) {
 		return isNotEmpty(value) && !"null".equalsIgnoreCase(value.trim());
 	}
-
+	
 	public static boolean isNull(String value) {
 		return !isNotNull(value);
+	}
+	
+	public static boolean isNull(Integer value) {
+		return value == null ? true : false;
+	}
+	
+	public static boolean isNull(Long value) {
+		return value == null ? true : false;
+	}
+	
+	public static boolean isNull(Double value) {
+		return value == null ? true : false;
 	}
 
 	public static String dateToString(Date date) {
@@ -62,5 +74,7 @@ public class Strings {
 		}
 
 	}
+
+
 
 }

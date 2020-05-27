@@ -35,7 +35,6 @@ public class LoginController extends HttpServlet {
 			// Loggin 
 			if (cmd.equalsIgnoreCase("doLogin")) {
 				String idToken = request.getParameter("idToken");
-				System.out.println("LOGIN"+"idToken: "+idToken);
 				
 				// Decodifica o token id
 				FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
@@ -43,8 +42,6 @@ public class LoginController extends HttpServlet {
 				//Recupera os dados do usuário
 				UserRecord usuarioRecuperado = UsuarioDAO.getInstance().recuperarUsuario(decodedToken.getUid());
 							
-				System.out.println("Successfully fetched user data: " + usuarioRecuperado.getUid() + " "+ usuarioRecuperado.getDisplayName());
-				
 				// Cria um objeto Usuário com os dados recuperados do firebase
 				Usuario usuarioLogado = new Usuario();
 				usuarioLogado.setUserRecord(usuarioRecuperado); // Salva os dados de usuário firebase, que contém os custom claims
@@ -59,26 +56,23 @@ public class LoginController extends HttpServlet {
 
 			} else if (cmd.equalsIgnoreCase("doLogout")) {
 				//remove o usuario logado da sesão para cair no webfilter e redirecionar para a página de login
-				System.out.println("LOGOUT");
 				
 				HttpSession session = request.getSession(false);
 				session.removeAttribute("attrUsuarioLogado");
 				
 				rd = request.getRequestDispatcher("login.jsp");
 			} else if (cmd.equalsIgnoreCase("login")) {
-				System.out.println(cmd);
 				//Salva o usuarioLogado na sessão
 				HttpSession session2 = request.getSession(false);
 				
 				if(session2.getAttribute("attrUsuarioLogado") != null) {
 					rd = request.getRequestDispatcher("index.jsp");					
-					System.out.println("login user ativo");
 				} else {
 					rd = request.getRequestDispatcher("login.jsp");
-					System.out.println("login user null");
 				}
-			} else if (cmd.equalsIgnoreCase("resetPassword")) {
+				
 				// abre form reset senha
+			} else if (cmd.equalsIgnoreCase("resetPassword")) {
 				rd = request.getRequestDispatcher("resetPassword.jsp");
 			}
 			

@@ -43,7 +43,7 @@ public class LocaisController extends HttpServlet {
 
 				// Prepara o formulário e o local
 			} else if (cmd.equalsIgnoreCase("inserir")) {
-				local = new Local("", "", "", "", 0, 0, 0, 0);
+				local = new Local("", "", "", "", null, null, null, null);
 				local.setId(LocalDAO.getInstance().getIdFirebase());
 				request.setAttribute("attrLocal", local);
 				rd = request.getRequestDispatcher("localForm.jsp");

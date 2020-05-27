@@ -14,8 +14,8 @@ public class Local implements Serializable {
 	private String nome;
 	private String tipo;
 	private String descricao;
-	private double latitude;
-	private double longitude;
+	private Double latitude;
+	private Double longitude;
 	private Integer zIndex;
 	private Integer andar;
 	private Long dataCadastro;
@@ -28,7 +28,7 @@ public class Local implements Serializable {
 		this.id = id;
 	}
 
-	public Local(String id, String nome, String tipo, String descricao, double latitude, double longitude, Integer zIndex, Integer andar) {
+	public Local(String id, String nome, String tipo, String descricao, Double latitude, Double longitude, Integer zIndex, Integer andar) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -109,19 +109,19 @@ public class Local implements Serializable {
 		this.andar = andar;
 	}
 
-	public double getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
-	public double getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 

@@ -13,26 +13,70 @@ import com.google.firebase.database.Query;
 
 import br.ucb.model.Evento;
 import br.ucb.util.ConfiguracaoFirebase;
+import br.ucb.util.Strings;
+import br.ucb.util.ValidacaoException;
 
 public class EventoDAO extends AbstractDAO<Evento> {
-	
+
 	public String getIdFirebase() {
-		DatabaseReference firebase =  ConfiguracaoFirebase.getDatabaseReference().child("eventos");
+		DatabaseReference firebase = ConfiguracaoFirebase.getDatabaseReference().child("eventos");
 		String id = firebase.push().getKey();
 		return id;
 	}
 
+	private void validar(Evento evento) {
+
+		ValidacaoException exception = new ValidacaoException();
+
+		if (Strings.isNull(evento.getNome())) {
+			exception.getErros().add("O Nome do evento é obrigatório");
+		}
+
+		if (Strings.isNull(evento.getTipo())) {
+			exception.getErros().add("O Tipo do evento é obrigatória");
+		}
+
+		if (Strings.isNull(evento.getDescricao())) {
+			exception.getErros().add("O Descrição do evento é obrigatório");
+		}
+
+		if (Strings.isNull(evento.getzIndex())) {
+			exception.getErros().add("O zIndex do evento é obrigatório");
+		}
+		
+		if (Strings.isNull(evento.getData_inicio())) {
+			exception.getErros().add("O Data de início do evento é obrigatório");
+		}
+		
+		if (Strings.isNull(evento.getData_fim())) {
+			exception.getErros().add("O Data final do evento é obrigatório");
+		}
+		
+		if (evento.getLocal() == null) {
+			System.out.println("local == "+ evento.getLocal());
+			exception.getErros().add("O Local do evento é obrigatório");
+		}
+
+
+		if (!exception.getErros().isEmpty()) {
+			throw exception;
+		}
+	}
+
 	public void salvar(Evento evento) {
+		
+		//validação de dados
+		validar(evento);
+		
 		if (evento.isPersistido()) {
 			atualizar(evento);
-		}
-		else {
+		} else {
 			inserir(evento);
 		}
 	}
-	
+
 	private void inserir(Evento evento) {
-		DatabaseReference firebase =  ConfiguracaoFirebase.getDatabaseReference().child("eventos");
+		DatabaseReference firebase = ConfiguracaoFirebase.getDatabaseReference().child("eventos");
 		String id = evento.getId();
 		evento.setDataCadastro(System.currentTimeMillis());
 		firebase.child(id).setValueAsync(evento);
@@ -50,19 +94,20 @@ public class EventoDAO extends AbstractDAO<Evento> {
 		eventoPersistido.setzIndex(evento.getzIndex());
 		eventoPersistido.setData_inicio(evento.getData_inicio());
 		eventoPersistido.setData_fim(evento.getData_fim());
-		
-		DatabaseReference dr =  ConfiguracaoFirebase.getFirebaseDatabase().getReference("eventos").child(evento.getId());
+
+		DatabaseReference dr = ConfiguracaoFirebase.getFirebaseDatabase().getReference("eventos").child(evento.getId());
 		dr.setValueAsync(eventoPersistido);
 	}
-	
+
 	public void excluir(Evento evento) {
 		Evento eventoPersistido = obterEvento(evento.getId());
 		if (eventoPersistido == null) {
 			throw new IllegalStateException("O Evento não foi encontrado na base de dados.");
 		}
-		
+
 		try {
-			ConfiguracaoFirebase.getDatabaseReference().child("eventos").child(eventoPersistido.getId()).removeValueAsync().get();
+			ConfiguracaoFirebase.getDatabaseReference().child("eventos").child(eventoPersistido.getId())
+					.removeValueAsync().get();
 		} catch (Exception e) {
 			throw new IllegalStateException(e.getMessage(), e);
 		}
@@ -74,37 +119,37 @@ public class EventoDAO extends AbstractDAO<Evento> {
 
 			// https://stackoverflow.com/questions/30659569/wait-until-firebase-retrieves-data
 			SettableApiFuture<DataSnapshot> future = SettableApiFuture.create();
-			
+
 			DatabaseReference eventosRef = ConfiguracaoFirebase.getDatabaseReference();
 			Query query = eventosRef.child("eventos").orderByChild("id").equalTo(id);
 
 			ChildEventListener vel = new ChildEventListener() {
-				
+
 				@Override
 				public void onChildRemoved(DataSnapshot snapshot) {
 				}
-				
+
 				@Override
 				public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
 				}
-				
+
 				@Override
 				public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
 				}
-				
+
 				@Override
 				public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
 					future.set(snapshot);
 				}
-				
+
 				@Override
 				public void onCancelled(DatabaseError error) {
 					future.setException(error.toException());
 				}
 			};
-			
+
 			query.addChildEventListener(vel);
-			
+
 			evento = future.get().getValue(Evento.class);
 
 		} catch (Exception e) {
@@ -112,7 +157,7 @@ public class EventoDAO extends AbstractDAO<Evento> {
 		}
 		return evento;
 	}
-	
+
 	@Override
 	public List<Evento> obterEntidades(String pathString) {
 		List<Evento> eventos = super.obterEntidades(pathString);

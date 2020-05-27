@@ -57,7 +57,7 @@
             <div class="card-body">
             
               <form id="formEvento" action="eventos" method="post">
-                <input type="hidden" id="idLocal" name="id" value="<%= evento.getId() %>">
+                <input type="hidden" id="idEvento" name="id" value="<%= evento.getId() %>">
                 <input type="hidden" name="dataCadastro" value="<%= evento.getDataCadastro() %>">
                 
                 <div class="form-group">
@@ -77,7 +77,7 @@
                 
                 <div class="form-group">
                   <label for="zIndex">zIndex</label>
-                  <input class="form-control" id="zIndex" name="zIndex" type="number" min="0" max="1000" value="<%= evento.getzIndex() == null ? "0" : evento.getzIndex() %>">
+                  <input class="form-control" id="zIndex" name="zIndex" type="number" min="0" max="1000" value="<%= evento.getzIndex() == null ? "" : evento.getzIndex() %>">
                 </div>
                 
                 <div class="form-group">
@@ -103,6 +103,19 @@
                 </div>
                 
               </form>
+              
+              <div class="card" style="margin-bottom: 20px;">
+              	<div class="card-header">Arquivo</div>
+			    <div class="card-body">
+	              <h6>Selecione o arquivo.</h6>
+	              <input type="file" id="file" name="file" accept="image/*" style="margin-bottom: 5px;"/>
+	              <h6>URL do Arquivo:</h6>
+	              <span id="linkbox"></span>
+			      <div id="divImagem" style="width: 100px; height: 100px; display: none;" >
+			      	<img id="imagemEvento" alt="imagem" src="" style="width: 100%; height: auto;">
+			      </div>
+			    </div>
+              </div>
               
         	  <div style="margin-top: 20px;">
     	          <button class="btn btn-outline-primary" type="submit" formaction="eventos?cmd=doSalvar" form="formEvento">Salvar</button>
@@ -145,10 +158,94 @@
   
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-analytics.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-storage.js"></script>
   
   <!-- Métodos firebase -->
   <script src="js/firebase-metodos.js"></script>
+  
+  <script>
+  
+  firebase.analytics();
+  
+  var auth = firebase.auth();
+  var storageRef = firebase.storage().ref();
+
+  function handleFileSelect(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    var file = evt.target.files[0];
+
+    var metadata = {
+      'contentType': file.type
+    };
+    
+    var fileNameStorage = document.getElementById("idEvento").value + ".png";
+
+    // Push to child path.
+    // [START oncomplete]
+    storageRef.child('eventos/' + fileNameStorage).put(file, metadata).then(function(snapshot) {
+      console.log('Uploaded', snapshot.totalBytes, 'bytes.');
+      console.log('File metadata:', snapshot.metadata);
+      // Let's get a download URL for the file.
+      snapshot.ref.getDownloadURL().then(function(url) {
+        console.log('File available at', url);
+        // [START_EXCLUDE]
+        document.getElementById('linkbox').innerHTML = '<a href="' +  url + '">Click For File</a>';
+        // [END_EXCLUDE]
+      });
+    }).catch(function(error) {
+      // [START onfailure]
+      console.error('Upload failed:', error);
+      // [END onfailure]
+    });
+    // [END oncomplete]
+  }
+
+  window.onload = function() {
+    document.getElementById('file').addEventListener('change', handleFileSelect, false);
+    document.getElementById('file').disabled = true;
+
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        //console.log('Anonymous user signed-in.', user);
+        document.getElementById('file').disabled = false;
+      } else {
+        console.log('There was no anonymous session. Creating a new anonymous user.');
+        // Sign the user in anonymously since accessing Storage requires the user to be authorized.
+        auth.signInAnonymously().catch(function(error) {
+          if (error.code === 'auth/operation-not-allowed') {
+            window.alert('Anonymous Sign-in failed. Please make sure that you have enabled anonymous ' + 'sign-in on your Firebase project.');
+          }
+        });
+      }
+    });
+    
+    var nomeFileStorage = document.getElementById('idEvento').value + ".png";
+    
+    storageRef.child('eventos/'+nomeFileStorage).getDownloadURL().then(function(url) {
+
+    	  // This can be downloaded directly:
+    	  var xhr = new XMLHttpRequest();
+    	  xhr.responseType = 'blob';
+    	  xhr.onload = function(event) {
+    	    var blob = xhr.response;
+    	  };
+    	  xhr.open('GET', url);
+    	  xhr.send();
+
+    	  // Or inserted into an <img> element:
+    	  var img = document.getElementById('imagemEvento');
+    	  img.src = url;
+    	  document.getElementById("divImagem").style.display = "block";
+
+    	}).catch(function(error) {
+    	  // Handle any errors
+    	});
+  }
+  
+</script>
   
 
 </body>

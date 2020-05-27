@@ -45,6 +45,22 @@ public class LocalDAO extends AbstractDAO<Local> {
 			exception.getErros().add("O Tipo do local é obrigatório");
 		}
 		
+		if (Strings.isNull(local.getAndar())) {
+			exception.getErros().add("O Andar do local é obrigatório");
+		}
+		
+		if (Strings.isNull(local.getzIndex())) {
+			exception.getErros().add("O zIndex do local é obrigatório");
+		}
+		
+		if (Strings.isNull(local.getLatitude())) {
+			exception.getErros().add("O Latitude do local é obrigatório");
+		}	
+		
+		if (Strings.isNull(local.getLongitude())) {
+			exception.getErros().add("O Longitude do local é obrigatório");
+		}
+		
 		if (!exception.getErros().isEmpty()) {
 			throw exception;
 		}
@@ -70,6 +86,7 @@ public class LocalDAO extends AbstractDAO<Local> {
 
 	public void salvar(Local local) {
 		
+		//validação de dados
 		validar(local);
 		
 		if (local.isPersistido()) {

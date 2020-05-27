@@ -65,7 +65,6 @@ public class UsuariosController extends HttpServlet {
 			} else if (cmd.equalsIgnoreCase("doSalvar")) {
 				usuario = getFromRequest(request);
 
-				System.out.println("doSalvar: " + usuario.getId());
 				UsuarioDAO.getInstance().salvar(usuario);
 
 				rd = request.getRequestDispatcher("usuarios?cmd=listar");

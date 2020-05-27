@@ -37,7 +37,7 @@
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Área Segura!</h1>
+                    <h1 class="h4 text-gray-900 mb-4">Resetar senha</h1>
                   </div>
                   <form class="user" action="login" method="post">
                     <div class="form-group">
@@ -47,7 +47,7 @@
                   </form>
                   <button class="btn btn-primary btn-user btn-block" onclick="enviarEmailResetSenhaValue()">Enviar</button>
                   <div class="text-center">
-                  	<a href="login?cmd=login" class="small">Voltar</a>
+                  	<a onclick="window.history.go(-1); return false;" href="#" class="small">Voltar</a>
                   </div>
                 </div>
               </div>

@@ -14,7 +14,10 @@ import br.ucb.model.Evento;
 import br.ucb.model.Local;
 import br.ucb.model.dao.EventoDAO;
 import br.ucb.model.dao.LocalDAO;
+import br.ucb.util.MensagemUtil;
 import br.ucb.util.Strings;
+import br.ucb.util.ValidacaoException;
+import br.ucb.util.MensagemUtil.Tipo;
 
 @WebServlet("/eventos")
 public class EventosController extends HttpServlet {
@@ -65,8 +68,10 @@ public class EventosController extends HttpServlet {
 			} else if (cmd.equalsIgnoreCase("excluir")) {
 				evento.setId(request.getParameter("id"));
 				dao.excluir(evento);
-				rd = request.getRequestDispatcher("eventos?cmd=listar");
-
+				addMensagem(request, Tipo.AVISO, "Evento excluído da base de dados.");
+				/* rd = request.getRequestDispatcher("eventos?cmd=listar"); */
+				response.sendRedirect("eventos");
+				return;
 				// Prepara o formulário e o evento
 			} else if (cmd.equalsIgnoreCase("atualizar")) {
 				String id = request.getParameter("id");
@@ -76,14 +81,34 @@ public class EventosController extends HttpServlet {
 
 				// Realiza a persistência do evento
 			} else if (cmd.equalsIgnoreCase("doSalvar")) {
-				evento = getFromRequest(request);
-				dao.salvar(evento);
-				rd = request.getRequestDispatcher("eventos?cmd=listar");
+				
+				try {
+					evento = getFromRequest(request);
+					dao.salvar(evento);
+					addMensagem(request, Tipo.SUCESSO, "Operação realizada com sucesso.");
+					response.sendRedirect("eventos");
+					return;
+					
+				} catch (ValidacaoException e) {
+					for (String erro : e.getErros()) {
+						addMensagem(request, Tipo.ERRO, erro);
+					}
+					//setar o evento na request para preencher os dados
+					request.setAttribute("attrEvento", evento);
+					rd = request.getRequestDispatcher("eventoForm.jsp");
+				}
 			}
+			
 			rd.forward(request, response);
 
 		} catch (Exception erro) {
 			erro.printStackTrace();
+			try {
+				addMensagem(request, Tipo.ERRO, erro.getMessage()+" - "+erro.getCause());
+				response.sendRedirect("erro.jsp");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -108,15 +133,26 @@ public class EventosController extends HttpServlet {
 	        evento.setData_fim(Strings.stringToMillis(request.getParameter("data_fim"), "23:59"));
 		}
 		
-		if (!"-1".equals(request.getParameter("local"))) {
-			evento.setLocal(request.getParameter("local"));
-		}
-		
 		if (Strings.isNotNull(request.getParameter("dataCadastro"))) {
 			evento.setDataCadastro(Long.parseLong(request.getParameter("dataCadastro")));
 		}
 		
+		if (!"-1".equals(request.getParameter("local"))) {
+			evento.setLocal(request.getParameter("local"));
+		}
+		
 		return evento;
+	}
+	
+	private void addMensagem(HttpServletRequest request, Tipo tipo, String mensagem) {
+
+		if (request.getSession().getAttribute("attrMensagensSession") == null) {
+			MensagemUtil mu = new MensagemUtil();
+			request.getSession().setAttribute("attrMensagensSession", mu);
+		}
+
+		MensagemUtil mensagens = (MensagemUtil) request.getSession().getAttribute("attrMensagensSession");
+		mensagens.addMensagem(tipo, mensagem);
 	}
 
 	@Override
