@@ -72,7 +72,8 @@
                 
                 <div class="form-group">
                   <label for="descricao">Descrição</label>
-                  <input class="form-control" id="descricao" name="descricao" type="text" value="<%= evento.getDescricao() %>">
+                  <textarea class="form-control" id="descricao" name="descricao" rows="3" ><%= evento.getDescricao() %></textarea>
+                  <%-- <input class="form-control" id="descricao" name="descricao" type="text" value="<%= evento.getDescricao() %>"> --%>
                 </div>
                 
                 <div class="form-group">
@@ -88,6 +89,11 @@
                 <div class="form-group">
                   <label for="data_fim">Data Fim</label>
                   <input type="date" id="data_fim" name="data_fim" value="<%= evento.getData_fim() != null ? Strings.millisToString(evento.getData_fim()) : "" %>">
+                </div>
+                
+                <div class="form-group">
+                  <label for="descricao">Horário</label>
+                  <input class="form-control" id="horario" name="horario" type="text" value="<%= evento.getHorario() %>">
                 </div>
                 
                 <div class="form-group">

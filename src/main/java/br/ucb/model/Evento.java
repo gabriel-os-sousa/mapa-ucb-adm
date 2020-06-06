@@ -17,11 +17,12 @@ public class Evento implements Serializable {
 	private String nome;
 	private String tipo;
 	private Integer zIndex;
+	private String horario;
 
 	public Evento() {
 	}
 
-	public Evento(String id, Long data_fim, Long data_inicio, Long dataCadastro, String descricao, String local, String nome, String tipo, Integer zIndex) {
+	public Evento(String id, Long data_fim, Long data_inicio, Long dataCadastro, String descricao, String local, String nome, String tipo, Integer zIndex, String horario) {
 		this.id = id;
 		this.data_fim = data_fim;
 		this.data_inicio = data_inicio;
@@ -31,6 +32,7 @@ public class Evento implements Serializable {
 		this.nome = nome;
 		this.tipo = tipo;
 		this.zIndex = zIndex;
+		this.horario = horario;
 	}
 
 	public String getId() {
@@ -122,6 +124,14 @@ public class Evento implements Serializable {
 	
 	public void setLocalEntidade(Local localEntidade) {
 		this.localEntidade = localEntidade;
+	}
+
+	public String getHorario() {
+		return horario;
+	}
+
+	public void setHorario(String horario) {
+		this.horario = horario;
 	}
 
 }

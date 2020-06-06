@@ -39,7 +39,11 @@ public class EventoDAO extends AbstractDAO<Evento> {
 		if (Strings.isNull(evento.getDescricao())) {
 			exception.getErros().add("O Descrição do evento é obrigatório");
 		}
-
+		
+		if (Strings.isNull(evento.getHorario())) {
+			exception.getErros().add("O Horário do evento é obrigatório");
+		}
+		
 		if (Strings.isNull(evento.getzIndex())) {
 			exception.getErros().add("O zIndex do evento é obrigatório");
 		}
@@ -56,7 +60,6 @@ public class EventoDAO extends AbstractDAO<Evento> {
 			System.out.println("local == "+ evento.getLocal());
 			exception.getErros().add("O Local do evento é obrigatório");
 		}
-
 
 		if (!exception.getErros().isEmpty()) {
 			throw exception;
@@ -90,6 +93,7 @@ public class EventoDAO extends AbstractDAO<Evento> {
 		eventoPersistido.setNome(evento.getNome());
 		eventoPersistido.setTipo(evento.getTipo());
 		eventoPersistido.setDescricao(evento.getDescricao());
+		eventoPersistido.setHorario(evento.getHorario());
 		eventoPersistido.setLocal(evento.getLocal());
 		eventoPersistido.setzIndex(evento.getzIndex());
 		eventoPersistido.setData_inicio(evento.getData_inicio());
