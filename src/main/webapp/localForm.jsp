@@ -84,6 +84,7 @@
                    		 <option value="refeicao" <%= local.getTipo().equalsIgnoreCase("refeicao") ? "selected" : "" %>>refeicao</option>
                    		 <option value="sala" <%= local.getTipo().equalsIgnoreCase("sala") ? "selected" : "" %>>sala</option>
                    		 <option value="token_estacionamento" <%= local.getTipo().equalsIgnoreCase("token_estacionamento") ? "selected" : "" %>>token_estacionamento</option>
+                   		 <option value="outros" <%= local.getTipo().equalsIgnoreCase("outros") ? "selected" : "" %>>outros</option>
                    </select>
                 </div>
 
