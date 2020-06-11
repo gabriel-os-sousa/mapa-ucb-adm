@@ -65,11 +65,32 @@
                   <label for="tipo">Nome</label>
                   <input class="form-control" id="nome" name="nome" type="text" value="<%= local.getNome() %>">
                 </div>
-
+                
                 <div class="form-group">
+                   <label for="tipo">Tipo</label>
+                   <select class="form-control form-control-solid" id="tipo" name="tipo">
+                   		 <% if(local.getTipo().equalsIgnoreCase("")) {
+                   		 		out.print("<option value='' selected>Selecione o tipo</option>");
+                   			}
+                   		 %>
+                   		 <option value="atendimento" <%= local.getTipo().equalsIgnoreCase("atendimento") ? "selected" : "" %>>atendimento</option>
+                   		 <option value="auditorio" <%= local.getTipo().equalsIgnoreCase("auditorio") ? "selected" : "" %>>auditorio</option>
+                   		 <option value="banheiro" <%= local.getTipo().equalsIgnoreCase("banheiro") ? "selected" : "" %>>banheiro</option>
+                   		 <option value="biblioteca" <%= local.getTipo().equalsIgnoreCase("biblioteca") ? "selected" : "" %>>biblioteca</option>
+                   		 <option value="bloco" <%= local.getTipo().equalsIgnoreCase("bloco") ? "selected" : "" %>>bloco</option>
+                   		 <option value="esporte" <%= local.getTipo().equalsIgnoreCase("esporte") ? "selected" : "" %>>esporte</option>
+                   		 <option value="estacionamento" <%= local.getTipo().equalsIgnoreCase("estacionamento") ? "selected" : "" %>>estacionamento</option>
+                   		 <option value="laboratorio" <%= local.getTipo().equalsIgnoreCase("laboratorio") ? "selected" : "" %>>laboratorio</option>
+                   		 <option value="refeicao" <%= local.getTipo().equalsIgnoreCase("refeicao") ? "selected" : "" %>>refeicao</option>
+                   		 <option value="sala" <%= local.getTipo().equalsIgnoreCase("sala") ? "selected" : "" %>>sala</option>
+                   		 <option value="token_estacionamento" <%= local.getTipo().equalsIgnoreCase("token_estacionamento") ? "selected" : "" %>>token_estacionamento</option>
+                   </select>
+                </div>
+
+                <%-- <div class="form-group">
                   <label for="tipo">Tipo</label>
                   <input class="form-control" id="tipo" name="tipo" type="text" value="<%= local.getTipo() %>">
-                </div>
+                </div> --%>
                 
 		        <div class="form-group">
 		          <label for="descricao">Descrição</label>
