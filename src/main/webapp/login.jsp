@@ -83,6 +83,27 @@
   
   <!-- Métodos firebase -->
   <script src="js/firebase-metodos.js"></script>
+  
+  <script type="text/javascript">
+	// Using jQuery.
+	
+	const password = document.getElementById('password');
+	const email = document.getElementById('email');
+	password.addEventListener('keyup', function(e){
+		  var key = e.which || e.keyCode;
+		  if (key == 13) { // codigo da tecla enter
+			  doLogin();
+		  }
+		});
+	
+	email.addEventListener('keyup', function(e){
+		  var key = e.which || e.keyCode;
+		  if (key == 13) { // codigo da tecla enter
+			  doLogin();
+		  }
+		});
+	
+	</script>
 </body>
 
 </html>
