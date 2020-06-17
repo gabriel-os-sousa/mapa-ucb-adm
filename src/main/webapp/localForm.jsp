@@ -73,18 +73,30 @@
                    		 		out.print("<option value='' selected>Selecione o tipo</option>");
                    			}
                    		 %>
-                   		 <option value="atendimento" <%= local.getTipo().equalsIgnoreCase("atendimento") ? "selected" : "" %>>atendimento</option>
-                   		 <option value="auditorio" <%= local.getTipo().equalsIgnoreCase("auditorio") ? "selected" : "" %>>auditorio</option>
-                   		 <option value="banheiro" <%= local.getTipo().equalsIgnoreCase("banheiro") ? "selected" : "" %>>banheiro</option>
-                   		 <option value="biblioteca" <%= local.getTipo().equalsIgnoreCase("biblioteca") ? "selected" : "" %>>biblioteca</option>
-                   		 <option value="bloco" <%= local.getTipo().equalsIgnoreCase("bloco") ? "selected" : "" %>>bloco</option>
-                   		 <option value="esporte" <%= local.getTipo().equalsIgnoreCase("esporte") ? "selected" : "" %>>esporte</option>
-                   		 <option value="estacionamento" <%= local.getTipo().equalsIgnoreCase("estacionamento") ? "selected" : "" %>>estacionamento</option>
-                   		 <option value="laboratorio" <%= local.getTipo().equalsIgnoreCase("laboratorio") ? "selected" : "" %>>laboratorio</option>
-                   		 <option value="refeicao" <%= local.getTipo().equalsIgnoreCase("refeicao") ? "selected" : "" %>>refeicao</option>
-                   		 <option value="sala" <%= local.getTipo().equalsIgnoreCase("sala") ? "selected" : "" %>>sala</option>
-                   		 <option value="token_estacionamento" <%= local.getTipo().equalsIgnoreCase("token_estacionamento") ? "selected" : "" %>>token_estacionamento</option>
-                   		 <option value="outros" <%= local.getTipo().equalsIgnoreCase("outros") ? "selected" : "" %>>outros</option>
+                   		 <option value="Atendimento" <%= local.getTipo().equalsIgnoreCase("Atendimento") ? "selected" : "" %>>Atendimento</option>
+                   		 <option value="Auditório" <%= local.getTipo().equalsIgnoreCase("Auditório") ? "selected" : "" %>>Auditório</option>
+                   		 <option value="Banheiro" <%= local.getTipo().equalsIgnoreCase("Banheiro") ? "selected" : "" %>>Banheiro</option>
+                   		 <option value="Biblioteca" <%= local.getTipo().equalsIgnoreCase("Biblioteca") ? "selected" : "" %>>Biblioteca</option>
+                   		 <option value="Bloco" <%= local.getTipo().equalsIgnoreCase("Bloco") ? "selected" : "" %>>Bloco</option>
+                   		 <option value="Bloco A" <%= local.getTipo().equalsIgnoreCase("Bloco A") ? "selected" : "" %>>Bloco A</option>
+                   		 <option value="Bloco B" <%= local.getTipo().equalsIgnoreCase("Bloco B") ? "selected" : "" %>>Bloco B</option>
+                   		 <option value="Bloco C" <%= local.getTipo().equalsIgnoreCase("Bloco C") ? "selected" : "" %>>Bloco C</option>
+                   		 <option value="Bloco D" <%= local.getTipo().equalsIgnoreCase("Bloco D") ? "selected" : "" %>>Bloco D</option>
+                   		 <option value="Bloco E" <%= local.getTipo().equalsIgnoreCase("Bloco E") ? "selected" : "" %>>Bloco E</option>
+                   		 <option value="Bloco F" <%= local.getTipo().equalsIgnoreCase("Bloco F") ? "selected" : "" %>>Bloco F</option>
+                   		 <option value="Bloco G" <%= local.getTipo().equalsIgnoreCase("Bloco G") ? "selected" : "" %>>Bloco G</option>
+                   		 <option value="Bloco K" <%= local.getTipo().equalsIgnoreCase("Bloco K") ? "selected" : "" %>>Bloco K</option>
+                   		 <option value="Bloco L" <%= local.getTipo().equalsIgnoreCase("Bloco L") ? "selected" : "" %>>Bloco L</option>
+                   		 <option value="Bloco M" <%= local.getTipo().equalsIgnoreCase("Bloco M") ? "selected" : "" %>>Bloco M</option>
+                   		 <option value="Bloco R" <%= local.getTipo().equalsIgnoreCase("Bloco R") ? "selected" : "" %>>Bloco R</option>
+                   		 <option value="Bloco S" <%= local.getTipo().equalsIgnoreCase("Bloco S") ? "selected" : "" %>>Bloco S</option>
+                   		 <option value="Esporte" <%= local.getTipo().equalsIgnoreCase("Esporte") ? "selected" : "" %>>Esporte</option>
+                   		 <option value="Estacionamento" <%= local.getTipo().equalsIgnoreCase("Estacionamento") ? "selected" : "" %>>Estacionamento</option>
+                   		 <option value="Laboratório" <%= local.getTipo().equalsIgnoreCase("Laboratório") ? "selected" : "" %>>Laboratório</option>
+                   		 <option value="Refeição" <%= local.getTipo().equalsIgnoreCase("Refeição") ? "selected" : "" %>>Refeição</option>
+                   		 <option value="Sala" <%= local.getTipo().equalsIgnoreCase("Sala") ? "selected" : "" %>>Sala</option>
+                   		 <option value="Token Estacionamento" <%= local.getTipo().equalsIgnoreCase("token_estacionamento") ? "selected" : "" %>>Token Estacionamento</option>
+                   		 <option value="Outros" <%= local.getTipo().equalsIgnoreCase("Outros") ? "selected" : "" %>>Outros</option>
                    </select>
                 </div>
 
