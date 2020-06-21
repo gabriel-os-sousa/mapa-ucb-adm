@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
+import br.ucb.model.Evento;
 import br.ucb.model.Local;
 import br.ucb.util.ConfiguracaoFirebase;
 import br.ucb.util.Strings;
@@ -59,6 +60,25 @@ public class LocalDAO extends AbstractDAO<Local> {
 		
 		if (Strings.isNull(local.getLongitude())) {
 			exception.getErros().add("O Longitude do local é obrigatório");
+		}
+		
+		if (!exception.getErros().isEmpty()) {
+			throw exception;
+		}
+	}
+	
+	private void validarLocalEvento(Local local) {
+		
+		ValidacaoException exception = new ValidacaoException();
+		
+		EventoDAO daoEventos = new EventoDAO();
+		List<Evento> eventos = daoEventos.obterEntidades("eventos");
+		
+		// Tratamento para associar o Evento ao Local
+		for (Evento e : eventos) {
+			if (e.getLocal().equalsIgnoreCase(local.getId())) {
+				exception.getErros().add("Erro ao excluir local! Para excluir é necessário alterar o Local no Evento: '"+ e.getNome()+"'");
+			}
 		}
 		
 		if (!exception.getErros().isEmpty()) {
@@ -126,6 +146,10 @@ public class LocalDAO extends AbstractDAO<Local> {
 	
 	public void excluir(Local local) {
 		Local localPersistido = obterLocal(local.getId());
+	
+		//valida se o local está contido em algum evento
+		validarLocalEvento(local);
+		
 		if (localPersistido == null) {
 			throw new IllegalStateException("O Local não foi encontrado na base de dados.");
 		}

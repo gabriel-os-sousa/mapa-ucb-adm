@@ -31,6 +31,7 @@ public class LocaisController extends HttpServlet {
 		}
 
 		Local local = new Local();
+		
 		try {
 			RequestDispatcher rd = null;
 
@@ -50,11 +51,27 @@ public class LocaisController extends HttpServlet {
 
 				// Excluir local
 			} else if (cmd.equalsIgnoreCase("excluir")) {
-				local.setId(request.getParameter("id"));
-				LocalDAO.getInstance().excluir(local);
-				addMensagem(request, Tipo.AVISO, "Local excluído da base de dados.");
-				response.sendRedirect("locais");
-				return;
+				
+				try {
+					local.setId(request.getParameter("id"));
+					LocalDAO.getInstance().excluir(local);
+					addMensagem(request, Tipo.AVISO, "Local excluído da base de dados.");
+					response.sendRedirect("locais");
+					return;
+				} catch (ValidacaoException e) {
+					for (String erro : e.getErros()) {
+						addMensagem(request, Tipo.ERRO, erro);
+					}
+					response.sendRedirect("locais");
+					return;
+				}
+				
+				
+//				local.setId(request.getParameter("id"));
+//				LocalDAO.getInstance().excluir(local);
+//				addMensagem(request, Tipo.AVISO, "Local excluído da base de dados.");
+//				response.sendRedirect("locais");
+//				return;
 
 				// Prepara o formulário e o local
 			} else if (cmd.equalsIgnoreCase("atualizar")) {
