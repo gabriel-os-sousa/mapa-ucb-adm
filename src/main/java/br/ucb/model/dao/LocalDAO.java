@@ -55,11 +55,11 @@ public class LocalDAO extends AbstractDAO<Local> {
 		}
 		
 		if (Strings.isNull(local.getLatitude())) {
-			exception.getErros().add("O Latitude do local é obrigatório");
+			exception.getErros().add("A Latitude do local é obrigatório");
 		}	
 		
 		if (Strings.isNull(local.getLongitude())) {
-			exception.getErros().add("O Longitude do local é obrigatório");
+			exception.getErros().add("A Longitude do local é obrigatório");
 		}
 		
 		if (!exception.getErros().isEmpty()) {

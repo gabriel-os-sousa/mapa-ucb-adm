@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.ucb.model.Usuario;
 import br.ucb.model.dao.UsuarioDAO;
+import br.ucb.util.MensagemUtil;
 import br.ucb.util.Strings;
+import br.ucb.util.ValidacaoException;
+import br.ucb.util.MensagemUtil.Tipo;
 
 @WebServlet("/usuarios")
 public class UsuariosController extends HttpServlet {
@@ -49,8 +52,9 @@ public class UsuariosController extends HttpServlet {
 			} else if (cmd.equalsIgnoreCase("excluir")) {
 				String id = request.getParameter("id");
 				UsuarioDAO.getInstance().excluir(id);
+				addMensagem(request, Tipo.AVISO, "Usuário excluído da base de dados.");
 				rd = request.getRequestDispatcher("usuarios?cmd=listar");
-
+				
 				// Prepara o formulário e o usuario
 			} else if (cmd.equalsIgnoreCase("atualizar")) {
 				usuario = new Usuario();
@@ -63,11 +67,20 @@ public class UsuariosController extends HttpServlet {
 
 				// Realiza a persistencia do usuario
 			} else if (cmd.equalsIgnoreCase("doSalvar")) {
-				usuario = getFromRequest(request);
-
-				UsuarioDAO.getInstance().salvar(usuario);
-
-				rd = request.getRequestDispatcher("usuarios?cmd=listar");
+				try {
+					usuario = getFromRequest(request);
+					UsuarioDAO.getInstance().salvar(usuario);
+					addMensagem(request, Tipo.SUCESSO, "Operação realizada com sucesso.");
+					response.sendRedirect("usuarios");
+					//rd = request.getRequestDispatcher("usuarios?cmd=listar");
+					return;
+				} catch (ValidacaoException e) {
+					for (String erro : e.getErros()) {
+						addMensagem(request, Tipo.ERRO, erro);
+					}
+					request.setAttribute("attrUsuario", usuario);
+					rd = request.getRequestDispatcher("usuarioForm.jsp");
+				}
 			}
 
 			rd.forward(request, response);
@@ -92,6 +105,17 @@ public class UsuariosController extends HttpServlet {
 		}
 
 		return usuario;
+	}
+	
+	private void addMensagem(HttpServletRequest request, Tipo tipo, String mensagem) {
+		
+		if (request.getSession().getAttribute("attrMensagensSession") == null) {
+			MensagemUtil mu = new MensagemUtil();
+			request.getSession().setAttribute("attrMensagensSession", mu);
+		}
+		
+		MensagemUtil mensagens = (MensagemUtil) request.getSession().getAttribute("attrMensagensSession");
+		mensagens.addMensagem(tipo, mensagem);
 	}
 
 	@Override

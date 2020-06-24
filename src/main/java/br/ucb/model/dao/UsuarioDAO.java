@@ -16,6 +16,7 @@ import com.google.firebase.auth.UserRecord.UpdateRequest;
 import br.ucb.model.Usuario;
 import br.ucb.util.ConfiguracaoFirebase;
 import br.ucb.util.Strings;
+import br.ucb.util.ValidacaoException;
 
 public class UsuarioDAO {
 	
@@ -52,7 +53,6 @@ public class UsuarioDAO {
 					usuarios.add(usuario);
 				}
 			} catch (FirebaseAuthException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.getMessage()); 
 			}
@@ -82,6 +82,9 @@ public class UsuarioDAO {
 	}
 	
 	public void salvar(Usuario usuario) {
+		//validação de dados
+		validar(usuario);
+		
 		if (Strings.isNotEmpty(usuario.getId()) || Strings.isNotNull(usuario.getId())) {
 			atualizar(usuario);
 		} else {
@@ -89,6 +92,32 @@ public class UsuarioDAO {
 		}
 	}
 	
+	private void validar(Usuario usuario) {
+		ValidacaoException exception = new ValidacaoException();
+		
+		if (Strings.isNull(usuario.getNome())){
+			exception.getErros().add("O Nome do Usuário é obrigatório");
+		}
+		
+		if (Strings.isNull(usuario.getEmail())){
+			exception.getErros().add("O Email do Usuário é obrigatório");
+		}
+		
+		if (Strings.isNull(usuario.getSenha())){
+			exception.getErros().add("A senha do Usuário é obrigatória");
+		}
+		
+		if (Strings.isNull(usuario.getTipo())){
+			exception.getErros().add("O Tipo do Usuário é obrigatório");
+		}
+		
+	
+		if (!exception.getErros().isEmpty()) {
+			throw exception;
+		}
+		
+	}
+
 	private void atualizar (Usuario usuario) {
 		UpdateRequest upRequest = new UpdateRequest(usuario.getId())
 				.setEmail(usuario.getEmail())
@@ -102,6 +131,7 @@ public class UsuarioDAO {
 			usuarioRecuperado = FirebaseAuth.getInstance().updateUser(upRequest);
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();
+			throw new IllegalStateException("Erro ao atualizar usuario");
 		}
 		System.out.println("Successfully updated user: " + usuarioRecuperado.getUid());
 		
@@ -121,10 +151,12 @@ public class UsuarioDAO {
 			auth.setCustomUserClaims(usuarioRecuperado.getUid(), claims);
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();
+			throw new IllegalStateException("Erro ao adicionar usuario2");
 		}
 	}
 
 	private void inserir (Usuario usuario) {
+		try {
 		CreateRequest createRequest = new CreateRequest()
 			    .setEmail(usuario.getEmail())
 			    .setEmailVerified(true)
@@ -134,13 +166,21 @@ public class UsuarioDAO {
 
 		UserRecord usuarioRecuperado = null;
 		
-		try {
-			usuarioRecuperado = FirebaseAuth.getInstance().createUser(createRequest);
-		} catch (FirebaseAuthException e) {
-			e.printStackTrace();
-		}
+		usuarioRecuperado = FirebaseAuth.getInstance().createUser(createRequest);
 		System.out.println("Successfully created new user: " + usuarioRecuperado.getUid());
 		
 		atualizarTipoUsuario(usuario, usuarioRecuperado);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//throw new IllegalStateException("Erro ao adicionar usuario");
+			
+			ValidacaoException exception = new ValidacaoException();
+
+			exception.getErros().add("Erro ao adicionar usuário!");
+			
+			if (!exception.getErros().isEmpty()) {
+				throw exception;
+			}
+		}
 	}
 }
