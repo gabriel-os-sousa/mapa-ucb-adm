@@ -73,8 +73,8 @@
 		        <div class="form-group">
 		          <label for="tipo">Tipo</label>
 		          <select id="tipo" name="tipo">
-   	        	      <option value="admin" <%= usuario.isPersisted() && usuario.getUserRecord().getCustomClaims().get("admin").equals(true) ? "selected" : "" %>>Administrador</option> 
-					  <option value="user" <%= !usuario.isPersisted() || usuario.getUserRecord().getCustomClaims().get("admin").equals(false) ? "selected" : "" %>>Usuário</option>
+   	        	      <option value="admin" <%= usuario.isPersisted() && usuario.getUserRecord().getCustomClaims().get("admin").equals(true) ? "selected" : "" %>>Administrador Master</option> 
+					  <option value="user" <%= !usuario.isPersisted() || usuario.getUserRecord().getCustomClaims().get("admin").equals(false) ? "selected" : "" %>>Usuário Administrativo</option>
 				  </select>
 		        </div>
 		        

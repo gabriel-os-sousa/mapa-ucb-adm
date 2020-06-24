@@ -113,20 +113,27 @@
                       <td><%= usuario.getUserRecord().getDisplayName() %></td>
                       <td><%= usuario.getUserRecord().getEmail() %></td>
                       <td><%  if(usuario.getUserRecord().getCustomClaims().get("admin").equals(true)){
-                    		    out.print("Administrador");  
+                    		    out.print("Administrador Master");  
 		                      } else {
-		                    	out.print("Usuário");
+		                    	out.print("Usuário Administrativo");
 		                      }
                     	  %>
                       </td>
                       <td><%= usuario.getUserRecord().getUid() %></td>
                       <td>
-                          <a href="usuarios?cmd=atualizar&id=<%= usuario.getUserRecord().getUid()%>" class="btn btn-success btn-circle btn-sm" title="Atualizar">
+                          <% if(usuario.getUserRecord().getDisplayName().equalsIgnoreCase("ADMIN MASTER") || usuario.getUserRecord().getEmail().equalsIgnoreCase("tcc.mapa.ucb@gmail.com") ) {
+						    	//out.print("<a href='usuarios?cmd=atualizar&id="+ usuario.getUserRecord().getUid()+"' class='btn btn-success btn-circle btn-sm' title='Atualizar'><i class='fas fa-edit'></i></a>");
+                          	 } else {
+                          		out.print("<a href='usuarios?cmd=atualizar&id="+ usuario.getUserRecord().getUid()+"' class='btn btn-success btn-circle btn-sm' title='Atualizar'><i class='fas fa-edit'></i></a>");
+                          		out.print("<a href='usuarios?cmd=excluir&id="+ usuario.getUserRecord().getUid()+"' class='btn btn-danger btn-circle btn-sm' title='Excluir'><i class='fas fa-trash'></i></a>");
+                          	 }
+                          %> 
+                          <%-- <a href="usuarios?cmd=atualizar&id=<%= usuario.getUserRecord().getUid()%>" class="btn btn-success btn-circle btn-sm" title="Atualizar">
                             <i class="fas fa-edit"></i>
                           </a>
                           <a href="usuarios?cmd=excluir&id=<%= usuario.getUserRecord().getUid()%>" class="btn btn-danger btn-circle btn-sm" title="Excluir">
                             <i class="fas fa-trash"></i>
-                          </a>
+                          </a> --%>
                           
                           <button id="resetPassword" data-email="<%= usuario.getUserRecord().getEmail()%>" class="btn btn-primary btn-circle btn-sm" onclick="enviarEmailResetSenha('<%= usuario.getUserRecord().getEmail()%>')" title="Enviar email reset senha">
                          	 <i class="fas fa-key"></i>
