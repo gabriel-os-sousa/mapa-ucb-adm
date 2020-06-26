@@ -82,12 +82,14 @@ public class UsuarioDAO {
 	}
 	
 	public void salvar(Usuario usuario) {
-		//validação de dados
-		validar(usuario);
 		
 		if (Strings.isNotEmpty(usuario.getId()) || Strings.isNotNull(usuario.getId())) {
+			//validação de dados
+			validarUpdate(usuario);
 			atualizar(usuario);
 		} else {
+			//validação de dados
+			validar(usuario);
 			inserir(usuario);
 		}
 	}
@@ -115,7 +117,32 @@ public class UsuarioDAO {
 		if (!exception.getErros().isEmpty()) {
 			throw exception;
 		}
+	}
+	
+	private void validarUpdate(Usuario usuario) {
+		ValidacaoException exception = new ValidacaoException();
 		
+		if (Strings.isNull(usuario.getNome())){
+			exception.getErros().add("O Nome do Usuário é obrigatório");
+		}
+		
+		if (Strings.isNull(usuario.getEmail())){
+			exception.getErros().add("O Email do Usuário é obrigatório");
+		}
+		
+		/*
+		 * if (Strings.isNull(usuario.getSenha())){
+		 * exception.getErros().add("A senha do Usuário é obrigatória"); }
+		 */
+		
+		if (Strings.isNull(usuario.getTipo())){
+			exception.getErros().add("O Tipo do Usuário é obrigatório");
+		}
+		
+	
+		if (!exception.getErros().isEmpty()) {
+			throw exception;
+		}
 	}
 
 	private void atualizar (Usuario usuario) {

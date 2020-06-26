@@ -76,10 +76,10 @@
                   <%-- <input class="form-control" id="descricao" name="descricao" type="text" value="<%= evento.getDescricao() %>"> --%>
                 </div>
                 
-                <div class="form-group">
+                <%-- <div class="form-group">
                   <label for="zIndex">zIndex</label>
                   <input class="form-control" id="zIndex" name="zIndex" type="number" min="0" max="1000" value="<%= evento.getzIndex() == null ? "" : evento.getzIndex() %>">
-                </div>
+                </div> --%>
                 
                 <div class="form-group">
                   <label for="data_inicio">Data Inicio</label>

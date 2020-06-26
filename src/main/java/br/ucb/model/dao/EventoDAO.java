@@ -44,9 +44,10 @@ public class EventoDAO extends AbstractDAO<Evento> {
 			exception.getErros().add("O Horário do evento é obrigatório");
 		}
 		
-		if (Strings.isNull(evento.getzIndex())) {
-			exception.getErros().add("O zIndex do evento é obrigatório");
-		}
+		/*
+		 * if (Strings.isNull(evento.getzIndex())) {
+		 * exception.getErros().add("O zIndex do evento é obrigatório"); }
+		 */
 		
 		if (Strings.isNull(evento.getData_inicio())) {
 			exception.getErros().add("O Data de início do evento é obrigatório");

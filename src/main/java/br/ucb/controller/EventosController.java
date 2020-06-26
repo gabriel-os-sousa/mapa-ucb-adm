@@ -120,9 +120,10 @@ public class EventosController extends HttpServlet {
 		evento.setDescricao(request.getParameter("descricao"));
 		evento.setHorario(request.getParameter("horario"));
 		
-		if (Strings.isNotNull(request.getParameter("zIndex"))) {
-			evento.setzIndex(Integer.parseInt(request.getParameter("zIndex")));
-		}
+		/*
+		 * if (Strings.isNotNull(request.getParameter("zIndex"))) {
+		 * evento.setzIndex(Integer.parseInt(request.getParameter("zIndex"))); }
+		 */
 		
 		if (Strings.isNotNull(request.getParameter("data_inicio"))) {
 			//fazer o tratamento da data
