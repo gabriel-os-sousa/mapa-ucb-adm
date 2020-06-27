@@ -57,6 +57,14 @@ public class EventoDAO extends AbstractDAO<Evento> {
 			exception.getErros().add("O Data final do evento é obrigatório");
 		}
 		
+		//Verificação campo de data
+		if (!Strings.isNull(evento.getData_inicio()) && !Strings.isNull(evento.getData_fim())) {
+			if(evento.getData_fim() < evento.getData_inicio()) {
+				exception.getErros().add("A Data de término não pode ser menor que Data de Inicio");
+			}
+		}
+				
+		
 		if (evento.getLocal() == null) {
 			System.out.println("local == "+ evento.getLocal());
 			exception.getErros().add("O Local do evento é obrigatório");
