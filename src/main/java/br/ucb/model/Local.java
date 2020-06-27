@@ -2,7 +2,6 @@ package br.ucb.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Objects;
 
 import com.google.firebase.database.Exclude;
@@ -19,7 +18,6 @@ public class Local implements Serializable {
 	private Integer zIndex;
 	private Integer andar;
 	private Long dataCadastro;
-	private List<Local> localVizinho;
 
 	public Local() {
 	}
@@ -40,20 +38,10 @@ public class Local implements Serializable {
 		this.andar = andar;
 	}
 	
-	
 
 	@Override
 	public String toString() {
 		return " Nome: " + this.getNome() + " - Desc: " + this.getDescricao();
-	}
-
-	@Exclude
-	public List<Local> getLocalVizinho() {
-		return localVizinho;
-	}
-
-	public void setLocalVizinho(List<Local> localVizinho) {
-		this.localVizinho = localVizinho;
 	}
 
 	public String getId() {
