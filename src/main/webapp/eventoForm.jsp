@@ -1,3 +1,4 @@
+<%@page import="java.util.Collections"%>
 <%@page import="br.ucb.util.Strings"%>
 <%@page import="br.ucb.model.Evento"%>
 <%@page import="br.ucb.model.Local"%>
@@ -101,9 +102,10 @@
                    <select class="form-control form-control-solid" id="local" name="local">
                    		  <option value="-1">Selecione</option>	
                    		<% List<Local> locais = (List) request.getAttribute("attrLocais");
+                		   Collections.sort(locais);
                 		   for (Local local : locais) {
                 		 %>
-                           <option value="<%= local.getId() %>" <%= local.getId().equals(evento.getLocal()) ? "selected" : "" %> ><%= local.getTipoNome() %></option>
+                           <option value="<%= local.getId() %>" <%= local.getId().equals(evento.getLocal()) ? "selected" : "" %> ><%= local.getNome() %></option>
                 		 <% } %>
                    </select>
                 </div>
@@ -198,7 +200,7 @@
       snapshot.ref.getDownloadURL().then(function(url) {
         console.log('File available at', url);
         // [START_EXCLUDE]
-        document.getElementById('linkbox').innerHTML = '<a href="' +  url + '">Click For File</a>';
+        document.getElementById('linkbox').innerHTML = '<a href="' +  url + '">URL</a>';
         // [END_EXCLUDE]
       });
     }).catch(function(error) {

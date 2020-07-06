@@ -42,6 +42,7 @@
           <!-- Page Heading -->
           <h1 class="h3 mb-4 text-gray-800">Sobre</h1>
           <p>Site de gerênciamento do App Mapa UCB</p>
+          <p>TCC - Mapa UCB</p>
         </div>
         <!-- /.container-fluid -->
 

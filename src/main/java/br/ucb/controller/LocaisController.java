@@ -1,6 +1,7 @@
 package br.ucb.controller;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -39,6 +40,7 @@ public class LocaisController extends HttpServlet {
 			if (cmd.equalsIgnoreCase("listar")) {
 				
 				List<Local> locais = LocalDAO.getInstance().obterLocais();
+				Collections.sort(locais);
 				request.setAttribute("attrLocais", locais);
 				rd = request.getRequestDispatcher("locais.jsp");
 

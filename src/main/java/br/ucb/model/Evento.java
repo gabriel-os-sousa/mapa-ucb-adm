@@ -118,8 +118,8 @@ public class Evento implements Serializable {
 	}
 	
 	@Exclude
-	public String getTipoNomeLocal() {
-		return localEntidade == null ? "Não encontrado" : localEntidade.getTipoNome();
+	public String getNomeLocal() {
+		return localEntidade == null ? "Não encontrado" : localEntidade.getNome();
 	}
 	
 	public void setLocalEntidade(Local localEntidade) {

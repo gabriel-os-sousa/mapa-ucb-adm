@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import com.google.firebase.database.Exclude;
 
-public class Local implements Serializable {
+public class Local implements Serializable, Comparable<Local> {
 	private static final long serialVersionUID = 1L;
 	
 	private String id;
@@ -151,5 +151,10 @@ public class Local implements Serializable {
 			return false;
 		Local other = (Local) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public int compareTo(Local o) {
+		return this.getNome().compareTo(o.getNome());
 	}
 }
